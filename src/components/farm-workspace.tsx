@@ -4,20 +4,23 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   AlertTriangle,
   ArrowRight,
+  ArrowUpRight,
   BadgeCheck,
   Check,
   CircleDollarSign,
-  Crown,
+  Gift,
   Info,
-  MapPinned,
+  ListChecks,
   Route,
   ShieldAlert,
   Sparkles,
+  Tags,
+  TreePine,
 } from "lucide-react";
 
 import { RegexEntry } from "@/src/components/regex-entry";
 import { WorkspaceShell } from "@/src/components/workspace-shell";
-import { farmGuides, type FarmGuide } from "@/src/content/farms";
+import { farmGuides, type FarmGuide, type FarmSection } from "@/src/content/farms";
 import { getRegexEntry, regexSections, type RegexEntry as RegexEntryType } from "@/src/content/regex";
 import { filterEntries } from "@/src/lib/search";
 
@@ -54,10 +57,186 @@ function SearchResults({ query }: { query: string }) {
   );
 }
 
-function FarmGuideContent({ guide }: { guide: FarmGuide }) {
-  const mandatory = guide.requirements.filter((item) => item.kind === "mandatory");
-  const recommended = guide.requirements.filter((item) => item.kind === "recommended");
+function SectionHeading({ id, title, description, icon }: { id: string; title: string; description?: string; icon?: React.ReactNode }) {
+  return (
+    <div className="farm-section-heading">
+      <div><h2 id={id}>{title}</h2>{description ? <p>{description}</p> : null}</div>
+      {icon}
+    </div>
+  );
+}
 
+function FarmSectionContent({ section, sectionId }: { section: FarmSection; sectionId: string }) {
+  if (section.type === "summary") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<ListChecks size={18} aria-hidden="true" />} />
+        <dl className="farm-summary-grid">
+          {section.items.map((item) => (
+            <div key={item.label} data-tone={item.tone ?? "default"}><dt>{item.label}</dt><dd>{item.value}</dd></div>
+          ))}
+        </dl>
+      </section>
+    );
+  }
+
+  if (section.type === "checklists") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} />
+        <div className="requirement-columns" data-columns={section.columns.length}>
+          {section.columns.map((column) => (
+            <div className={`farm-panel farm-panel-${column.tone}`} key={column.title}>
+              <div className="farm-panel-title">
+                {column.tone === "required" ? <ShieldAlert size={16} aria-hidden="true" /> : <BadgeCheck size={16} aria-hidden="true" />}
+                <h3>{column.title}</h3>
+              </div>
+              <ul className="farm-checklist">
+                {column.items.map((item) => <li key={item.id}><Check size={14} aria-hidden="true" /><span><strong>{item.label}</strong>{item.detail}</span></li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (section.type === "callout") {
+    const Icon = section.tone === "danger" ? AlertTriangle : section.tone === "gold" ? CircleDollarSign : Info;
+    return (
+      <section className={`farm-callout farm-callout-${section.tone}`} aria-labelledby={sectionId}>
+        <Icon size={21} aria-hidden="true" />
+        <div>
+          {section.eyebrow ? <span className="instruction-label">{section.eyebrow}</span> : null}
+          <h2 id={sectionId}>{section.title}</h2>
+          {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+          {section.sequence?.length ? (
+            <div className="boss-order">
+              {section.sequence.map((step, index) => (
+                <span className="farm-sequence-part" key={step}>{index === 0 ? <strong>{step}</strong> : <span>{step}</span>}{index < section.sequence!.length - 1 ? <ArrowRight size={14} aria-hidden="true" /> : null}</span>
+              ))}
+            </div>
+          ) : null}
+        </div>
+      </section>
+    );
+  }
+
+  if (section.type === "tablets") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <div className="farm-section-heading">
+          <div><h2 id={sectionId}>{section.title}</h2><p>{section.description}</p></div>
+          {section.status ? <span className="farm-section-status">{section.status}</span> : null}
+        </div>
+        <div className="tablet-coverage">
+          {section.requirements.map((item) => (
+            <article className="coverage-row" key={item.id}>
+              <span className="coverage-count">{item.count}</span>
+              <div><h3>{item.label}</h3><p>{item.purpose}</p></div>
+              <div className="coverage-roll"><span>{item.range}</span><strong>{item.recommendation}</strong></div>
+            </article>
+          ))}
+        </div>
+        {section.note ? <div className="farm-inline-note"><Info size={15} aria-hidden="true" /><span>{section.note}</span></div> : null}
+        {section.extras ? <div className="secondary-modifiers"><h3>{section.extras.title}</h3><ul>{section.extras.items.map((item) => <li key={item}>{item}</li>)}</ul></div> : null}
+      </section>
+    );
+  }
+
+  if (section.type === "ranked") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Route size={18} aria-hidden="true" />} />
+        <ol className="route-priority">
+          {section.items.map((item) => <li key={item.rank}><span className="route-rank">{item.rank}</span><div><strong>{item.label}</strong><p>{item.reason}</p></div></li>)}
+        </ol>
+        {section.extras ? <div className="also-useful"><h3>{section.extras.title}</h3><div>{section.extras.items.map((item) => <span key={item}>{item}</span>)}</div>{section.extras.note ? <p>{section.extras.note}</p> : null}</div> : null}
+      </section>
+    );
+  }
+
+  if (section.type === "cards") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} />
+        <div className="decision-list farm-card-grid">
+          {section.items.map((item) => <article className="decision-row" data-tone={item.tone ?? "neutral"} key={item.label}><strong>{item.label}</strong><p>{item.detail}</p></article>)}
+        </div>
+      </section>
+    );
+  }
+
+  if (section.type === "tree") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<TreePine size={18} aria-hidden="true" />} />
+        <div className="tree-warning"><AlertTriangle size={16} aria-hidden="true" /><span>{section.warning}</span></div>
+        <div className="farm-tree" data-tree-id={section.treeId}>
+          {section.nodes.map((node) => (
+            <article className="farm-tree-node" data-priority={node.priority} key={node.id}>
+              <span className="tree-node-check"><Check size={13} aria-hidden="true" /></span>
+              <div><div className="tree-node-title"><h3>{node.name}</h3><span>{node.priority}</span></div><p>{node.note}</p><code>{node.id}</code></div>
+            </article>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  if (section.type === "regex") {
+    return (
+      <section className="farm-section farm-regex-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Sparkles size={18} aria-hidden="true" />} />
+        {section.groups.map((group) => (
+          <div className="farm-regex-group" key={group.label}>
+            <h3>{group.label}</h3>
+            <div className="entry-list">{resolveRegexEntries(group.entryIds).map((entry) => <RegexEntry key={entry.id} entry={entry} />)}</div>
+          </div>
+        ))}
+      </section>
+    );
+  }
+
+  if (section.type === "rewards") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Gift size={18} aria-hidden="true" />} />
+        <ul className="reward-grid">{section.items.map((item) => <li key={item}>{item}</li>)}</ul>
+        {section.note ? <div className="farm-inline-note"><Info size={15} aria-hidden="true" /><span>{section.note}</span></div> : null}
+      </section>
+    );
+  }
+
+  if (section.type === "tags") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Tags size={18} aria-hidden="true" />} />
+        <div className="farm-tag-list">{section.items.map((item) => <span key={item}>{item}</span>)}</div>
+      </section>
+    );
+  }
+
+  if (section.type === "links") {
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} />
+        <div className="farm-link-list">
+          {section.links.map((link) => <a href={link.url} target="_blank" rel="noreferrer" key={link.url}><span><strong>{link.label}</strong>{link.note ? <small>{link.note}</small> : null}</span><ArrowUpRight size={16} aria-hidden="true" /></a>)}
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section className="farm-section" aria-labelledby={sectionId}>
+      <SectionHeading id={sectionId} title={section.title} />
+      <ul className="farm-note-list">{section.items.map((item) => <li key={item}><Info size={14} aria-hidden="true" /><span>{item}</span></li>)}</ul>
+    </section>
+  );
+}
+
+function FarmGuideContent({ guide }: { guide: FarmGuide }) {
   return (
     <>
       <section className="section-header farm-header" aria-labelledby="page-title">
@@ -74,136 +253,14 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
       </section>
 
       <div className="farm-flow" aria-label="Farm flow">
-        {guide.flow.map((step, index) => (
-          <div className="farm-flow-step" key={step.id}>
-            <span>{step.label}</span>
-            {index < guide.flow.length - 1 ? <ArrowRight size={14} aria-hidden="true" /> : null}
-          </div>
-        ))}
+        {guide.flow.map((step, index) => <div className="farm-flow-step" key={step.id}><span>{step.label}</span>{index < guide.flow.length - 1 ? <ArrowRight size={14} aria-hidden="true" /> : null}</div>)}
       </div>
 
-      <section className="farm-section" aria-labelledby="requirements-title">
-        <div className="farm-section-heading">
-          <div><h2 id="requirements-title">Preparation</h2><p>Build requirements and recommended Waystone targets.</p></div>
-        </div>
-        <div className="requirement-columns">
-          <div className="farm-panel farm-panel-required">
-            <div className="farm-panel-title"><ShieldAlert size={16} aria-hidden="true" /><h3>Mandatory</h3></div>
-            <ul className="farm-checklist">
-              {mandatory.map((item) => <li key={item.id}><Check size={14} aria-hidden="true" /><span><strong>{item.label}</strong>{item.detail}</span></li>)}
-            </ul>
-          </div>
-          <div className="farm-panel farm-panel-recommended">
-            <div className="farm-panel-title"><BadgeCheck size={16} aria-hidden="true" /><h3>Recommended Waystone</h3></div>
-            <ul className="farm-checklist">
-              {recommended.map((item) => <li key={item.id}><Check size={14} aria-hidden="true" /><span><strong>{item.label}</strong>{item.detail}</span></li>)}
-            </ul>
-          </div>
-        </div>
-      </section>
+      {guide.sections.map((section, index) => <FarmSectionContent key={`${section.type}-${section.title}`} section={section} sectionId={`farm-section-${index}`} />)}
 
-      <section className="farm-callout farm-callout-gold" aria-labelledby="freedom-title">
-        <Crown size={21} aria-hidden="true" />
-        <div>
-          <h2 id="freedom-title">Why Freedom of Faith is core</h2>
-          <p><strong>Can Reroll Favours at Ritual Altars in your Maps twice as many times.</strong> Favours cost 10–15% increased Tribute, but this setup is built to generate a large Tribute pool and reduce Defer and Reroll costs.</p>
-          <p>Each Ritual completed during the Rite adds another reroll to future Rituals in the chain. Additional-reroll Tablets and Freedom of Faith multiply that snowball.</p>
-        </div>
-      </section>
-
-      <section className="farm-section" aria-labelledby="tablets-title">
-        <div className="farm-section-heading">
-          <div><h2 id="tablets-title">Tablet coverage</h2><p>Distribute these modifiers across rare Ritual Tablets in any combination.</p></div>
-          <span className="farm-section-status">Freedom of Faith + required coverage</span>
-        </div>
-        <div className="tablet-coverage">
-          {guide.tabletRequirements.map((item) => (
-            <article className="coverage-row" key={item.id}>
-              <span className="coverage-count">{item.minimum}×</span>
-              <div><h3>{item.label}</h3><p>{item.purpose}</p></div>
-              <div className="coverage-roll"><span>{item.range}</span><strong>Best: {item.strongestRoll}</strong></div>
-            </article>
-          ))}
-        </div>
-        <div className="farm-inline-note"><Info size={15} aria-hidden="true" /><span>Modifiers may overlap on the same Tablet. Divine Orbs can improve numeric rolls when the cost makes sense, but they are not automatically the economical choice.</span></div>
-        <div className="secondary-modifiers">
-          <h3>Optional secondary rolls</h3>
-          <ul>{guide.optionalTabletModifiers.map((modifier) => <li key={modifier}>{modifier}</li>)}</ul>
-        </div>
-      </section>
-
-      <section className="farm-section" aria-labelledby="route-title">
-        <div className="farm-section-heading">
-          <div><h2 id="route-title">Route priority</h2><p>Complete strong Foretold Proliferations early so later Rite maps inherit them.</p></div>
-          <Route size={18} aria-hidden="true" />
-        </div>
-        <ol className="route-priority">
-          {guide.routePriorities.map((item) => (
-            <li key={item.rank}><span className="route-rank">{item.rank}</span><div><strong>{item.label}</strong><p>{item.reason}</p></div></li>
-          ))}
-        </ol>
-        <div className="also-useful"><h3>Also useful</h3><div>{guide.usefulRouteModifiers.map((item) => <span key={item}>{item}</span>)}</div><p>Do not rank a tiny guaranteed Bounty above a strong Proliferation by default. Evaluate explicit high-value Omens or Uniques separately.</p></div>
-      </section>
-
-      <section className="farm-callout farm-callout-danger" aria-labelledby="boss-title">
-        <AlertTriangle size={22} aria-hidden="true" />
-        <div>
-          <span className="instruction-label">Required run rule</span>
-          <h2 id="boss-title">Boss Ritual first</h2>
-          <p>Rush the map boss, kill it and complete the boss-room Ritual before any other altar. If a Summoning Circle Ritual is present, do it next. Then complete the remaining Rituals.</p>
-          <div className="boss-order"><strong>Boss Ritual</strong><ArrowRight size={14} /><span>Summoning Circle if present</span><ArrowRight size={14} /><span>Remaining Rituals</span></div>
-          <p className="farm-callout-detail">Rituals accumulate monsters during a continuous encounter. The Rite also carries progression and previously defeated map bosses through the chain, with bosses joining later final Ritual encounters.</p>
-        </div>
-      </section>
-
-      <section className="farm-section" aria-labelledby="decisions-title">
-        <div className="farm-section-heading">
-          <div><h2 id="decisions-title">During each Ritual</h2><p>Protect the reroll budget first, then spend the surplus on optional re-defers.</p></div>
-          <CircleDollarSign size={18} aria-hidden="true" />
-        </div>
-        <div className="decision-layout">
-          <div className="decision-list">
-            {guide.decisions.map((decision) => (
-              <div className="decision-row" data-tone={decision.tone} key={decision.label}><strong>{decision.label}</strong><p>{decision.action}</p></div>
-            ))}
-          </div>
-          <aside className="tribute-example" aria-label="Tribute buffer estimation example">
-            <div className="tribute-heading"><span>Estimation example</span><strong>Reserve rerolls first</strong></div>
-            <dl>
-              <div><dt>Current Tribute</dt><dd>14,000</dd></div>
-              <div><dt>Remaining rerolls</dt><dd>12</dd></div>
-              <div><dt>Average reroll cost</dt><dd>~1,000</dd></div>
-              <div className="tribute-reserved"><dt>Reserved budget</dt><dd>~12,000</dd></div>
-              <div className="tribute-free"><dt>Approximate free Tribute</dt><dd>~2,000</dd></div>
-            </dl>
-            <p>This is an estimation technique, not an exact formula. Reroll costs can vary.</p>
-          </aside>
-        </div>
-      </section>
-
-      <section className="farm-section" aria-labelledby="mechanics-title">
-        <div className="farm-section-heading"><div><h2 id="mechanics-title">Mechanics notes</h2><p>Why the recommended Waystone stats matter.</p></div><MapPinned size={18} aria-hidden="true" /></div>
-        <div className="mechanic-notes">
-          <div><strong>Monster Rarity</strong><p>Tribute depends on monster rarity. More Monster Rarity increases the chance for Magic and Rare monsters, which contribute more Tribute.</p></div>
-          <div><strong>Pack Size</strong><p>More monsters around Ritual circles increases the pool available to be sacrificed and revived. Pack Size helps density, but does not guarantee a specific Tribute total.</p></div>
-        </div>
-      </section>
-
-      <section className="farm-section farm-regex-section" aria-labelledby="regex-title">
-        <div className="farm-section-heading"><div><h2 id="regex-title">Regex for this farm</h2><p>These tools reference the normal Regexile entries by ID and use the same copy controls.</p></div><Sparkles size={18} aria-hidden="true" /></div>
-        {guide.regexGroups.map((group) => (
-          <div className="farm-regex-group" key={group.label}>
-            <h3>{group.label}</h3>
-            <div className="entry-list">
-              {resolveRegexEntries(group.entryIds).map((entry) => <RegexEntry key={entry.id} entry={entry} />)}
-            </div>
-          </div>
-        ))}
-      </section>
-
-      <section className="farm-callout farm-callout-neutral">
-        <Info size={19} aria-hidden="true" />
-        <div><h2>Outcome expectations</h2><p>{guide.warnings[1]} The strategy aims for consistent value through Omens while retaining the chance of expensive Unique Favours.</p></div>
+      <section className="farm-sources" aria-labelledby="farm-sources-title">
+        <h2 id="farm-sources-title">Verification sources</h2>
+        <div>{guide.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>{source.name}<ArrowUpRight size={12} aria-hidden="true" /></a>)}</div>
       </section>
 
       <footer className="legal-note">Regexile is an unofficial Path of Exile 2 community tool and is not affiliated with or endorsed by Grinding Gear Games.</footer>
