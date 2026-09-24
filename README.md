@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Regexile
 
-## Getting Started
+Regexile is a fast, dark-mode Path of Exile 2 reference for finding and copying useful English-client regex patterns while playing.
 
-First, run the development server:
+## Development
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Production checks:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Content maintenance
 
-## Learn More
+- Regex sections, entries, patterns, verification states, and notes: `src/content/regex.ts`
+- PoE2 content version and optional repository URL: `src/config/game.ts`
+- Product and interaction principles: `PRODUCT.md`
+- Visual system and component treatment: `DESIGN.md`
 
-To learn more about Next.js, take a look at the following resources:
+Only mark an entry `verified` when its English modifier text and copyable expression are supported by current data. Entries without a confirmed expression should remain visible as `needs-verification` with an empty `patterns` array.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The initial v0.1 patterns were cross-checked against PoE2DB and the generated data and shortening logic in [poe2.re](https://poe2.re) / [veiset/poe.re](https://github.com/veiset/poe.re).
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Scope
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Version 0.1 is static and source-controlled. It has no database, authentication, admin surface, analytics, theme switcher, or community submission flow.
