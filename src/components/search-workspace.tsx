@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Dialog } from "@base-ui/react/dialog";
-import { CodeXml, Menu, Search, SearchX, X } from "lucide-react";
+import { SearchX } from "lucide-react";
 
 import { RegexEntry } from "@/src/components/regex-entry";
-import { Sidebar } from "@/src/components/sidebar";
-import { GAME_LABEL, REPOSITORY_URL } from "@/src/config/game";
+import { WorkspaceShell } from "@/src/components/workspace-shell";
+import { farmGuides } from "@/src/content/farms";
 import type { RegexEntry as RegexEntryType, RegexSection } from "@/src/content/regex";
 import { filterEntries } from "@/src/lib/search";
 
@@ -33,7 +32,6 @@ export function SearchWorkspace({ sections, selectedSection, initialQuery }: {
 }) {
   const [query, setQuery] = useState(initialQuery);
   const [filter, setFilter] = useState<Filter>("all");
-  const [mobileOpen, setMobileOpen] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -88,51 +86,14 @@ export function SearchWorkspace({ sections, selectedSection, initialQuery }: {
     : selectedSection.description;
 
   return (
-    <div className="app-shell">
-      <Sidebar sections={sections} activeSlug={selectedSection.slug} query={query} />
-
-      <div className="workspace">
-        <header className="workspace-header">
-          <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
-            <Dialog.Trigger className="mobile-menu-button" aria-label="Open navigation"><Menu size={19} aria-hidden="true" /></Dialog.Trigger>
-            <Dialog.Portal>
-              <Dialog.Backdrop className="mobile-nav-backdrop" />
-              <Dialog.Viewport className="mobile-nav-viewport">
-                <Dialog.Popup className="mobile-nav-popup">
-                  <Dialog.Title className="sr-only">Regexile navigation</Dialog.Title>
-                  <Dialog.Description className="sr-only">Select a map or tablet regex category.</Dialog.Description>
-                  <Dialog.Close className="mobile-nav-close" aria-label="Close navigation"><X size={18} aria-hidden="true" /></Dialog.Close>
-                  <Sidebar sections={sections} activeSlug={selectedSection.slug} query={query} mobile onNavigate={() => setMobileOpen(false)} />
-                </Dialog.Popup>
-              </Dialog.Viewport>
-            </Dialog.Portal>
-          </Dialog.Root>
-
-          <label className="global-search">
-            <Search size={17} aria-hidden="true" />
-            <span className="sr-only">Search all regex entries</span>
-            <input
-              ref={inputRef}
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search regex, modifiers, mechanics..."
-              autoComplete="off"
-              spellCheck={false}
-            />
-            <kbd>/</kbd>
-          </label>
-
-          <div className="header-actions">
-            <span className="header-version">{GAME_LABEL}</span>
-            {REPOSITORY_URL ? (
-              <a href={REPOSITORY_URL} target="_blank" rel="noreferrer" className="github-link"><CodeXml size={15} aria-hidden="true" /> GitHub</a>
-            ) : null}
-          </div>
-        </header>
-
-        <main className="main-content" id="main-content">
-          <div className="content-inner">
+    <WorkspaceShell
+      sections={sections}
+      farms={farmGuides}
+      activePath={selectedSection.path}
+      query={query}
+      onQueryChange={setQuery}
+      inputRef={inputRef}
+    >
             <section className="section-header" aria-labelledby="page-title">
               <div>
                 <p className="breadcrumb">{searching ? "Reference" : selectedSection.group === "maps" ? "Core" : "Tablets"} <span>/</span> <strong>{searching ? "Search" : selectedSection.navigationLabel}</strong></p>
@@ -173,9 +134,6 @@ export function SearchWorkspace({ sections, selectedSection, initialQuery }: {
             </div>
 
             <footer className="legal-note">Regexile is an unofficial Path of Exile 2 community tool and is not affiliated with or endorsed by Grinding Gear Games.</footer>
-          </div>
-        </main>
-      </div>
-    </div>
+    </WorkspaceShell>
   );
 }

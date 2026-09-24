@@ -6,8 +6,11 @@ import type { RegexEntry as RegexEntryType } from "@/src/content/regex";
 
 function VerificationLabel({ entry }: { entry: RegexEntryType }) {
   if (entry.verification === "verified") {
+    const sourceSummary = entry.sources?.length
+      ? `Verified ${entry.sources[0].verifiedAt} using ${entry.sources.map((source) => source.name).join(", ")}`
+      : undefined;
     return (
-      <span className="verification verification-verified">
+      <span className="verification verification-verified" title={sourceSummary}>
         <BadgeCheck size={13} aria-hidden="true" /> Verified <span aria-hidden="true">·</span> {GAME_CLIENT}
       </span>
     );

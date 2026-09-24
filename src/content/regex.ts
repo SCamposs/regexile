@@ -17,6 +17,12 @@ export type RegexPattern = {
   sourceText?: string;
 };
 
+export type VerificationSource = {
+  name: string;
+  url: string;
+  verifiedAt: string;
+};
+
 export type RegexEntry = {
   id: string;
   title: string;
@@ -30,6 +36,7 @@ export type RegexEntry = {
   verification: VerificationStatus;
   gameVersion?: string;
   category: string;
+  sources?: VerificationSource[];
 };
 
 export type RegexSection = {
@@ -46,11 +53,6 @@ const verified = (entry: Omit<RegexEntry, "verification" | "gameVersion">): Rege
   ...entry,
   verification: "verified",
   gameVersion: GAME_VERSION,
-});
-
-const pending = (entry: Omit<RegexEntry, "verification">): RegexEntry => ({
-  ...entry,
-  verification: "needs-verification",
 });
 
 export const regexSections: RegexSection[] = [
@@ -122,14 +124,15 @@ export const regexSections: RegexSection[] = [
         variant: "high-value",
         category: "General Tablet",
       }),
-      pending({
+      verified({
         id: "general-additional-azmeri",
-        title: "Additional Azmeri",
-        description: "The current data exposes multiple Azmeri Spirit wordings, so a single safe pattern is still being confirmed.",
-        patterns: [],
+        title: "Additional Azmeri Spirits",
+        description: "Finds tablets that add one or two Azmeri Spirits to the map.",
+        patterns: [{ value: '"l azmeri spirits"', sourceText: "Map contains (1–2) additional Azmeri Spirits" }],
         tags: ["azmeri", "strongbox", "general"],
         notes: ["Can become valuable when paired with Strongbox-related modifiers."],
         category: "General Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
       }),
     ],
   },
@@ -197,20 +200,60 @@ export const regexSections: RegexSection[] = [
         id: "ritual-reroll-favours",
         title: "Reroll Favours",
         description: "Finds tablets that allow additional Ritual Favour rerolls.",
-        patterns: [{ value: '"allo"', sourceText: "Ritual Altars allow rerolling Favours additional times" }],
+        patterns: [{ value: '"allo"', sourceText: "Ritual Altars in Map allow rerolling Favours 1–3 additional times" }],
         tags: ["reroll", "favours", "ritual"],
         notes: ["A cheap tablet with one useful Ritual modifier can be Chaos-crafted to attempt a second useful roll. The result is not guaranteed."],
         variant: "high-value",
         category: "Ritual Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
       }),
       verified({
         id: "ritual-omen-chance",
         title: "Omen Chance",
         description: "Finds increased chance for Ritual Favours to be Omens.",
-        patterns: [{ value: '"l fa"', sourceText: "Ritual Favours have increased chance to be Omens" }],
+        patterns: [{ value: '"l fa"', sourceText: "Ritual Favours in Map have 35–70% increased chance to be Omens" }],
         tags: ["omen", "favours", "ritual"],
         variant: "high-value",
         category: "Ritual Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
+      }),
+      verified({
+        id: "ritual-reduced-defer-cost",
+        title: "Reduced Defer Cost",
+        description: "Finds reduced Tribute cost when deferring Ritual Favours.",
+        patterns: [{ value: '"rri"', sourceText: "Deferring Favours at Ritual Altars in Map costs 20–30% reduced Tribute" }],
+        tags: ["defer", "tribute", "ritual"],
+        variant: "high-value",
+        category: "Ritual Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
+      }),
+      verified({
+        id: "ritual-reduced-reroll-cost",
+        title: "Reduced Reroll Cost",
+        description: "Finds reduced Tribute cost when rerolling Ritual Favours.",
+        patterns: [{ value: '"^rer"', sourceText: "Rerolling Favours at Ritual Altars in Map costs 20–30% reduced Tribute" }],
+        tags: ["reroll", "tribute", "ritual"],
+        variant: "high-value",
+        category: "Ritual Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
+      }),
+      verified({
+        id: "ritual-increased-tribute",
+        title: "Increased Tribute",
+        description: "Finds increased Tribute from monsters sacrificed at Ritual Altars.",
+        patterns: [{ value: '"iced"', sourceText: "Monsters Sacrificed at Ritual Altars in Map grant 18–30% increased Tribute" }],
+        tags: ["tribute", "monsters", "ritual"],
+        category: "Ritual Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
+      }),
+      verified({
+        id: "ritual-rare-monsters",
+        title: "Rare Ritual Monsters",
+        description: "Finds increased chance for revived Ritual monsters to be Rare.",
+        patterns: [{ value: '"are$"', sourceText: "Revived Monsters from Ritual Altars in Map have 25–40% increased chance to be Rare" }],
+        tags: ["rare monsters", "tribute", "ritual"],
+        category: "Ritual Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
       }),
     ],
   },
@@ -222,32 +265,35 @@ export const regexSections: RegexSection[] = [
     description: "Expedition combinations, with uncertain wording kept visibly separate.",
     group: "tablets",
     entries: [
-      pending({
+      verified({
         id: "expedition-chests",
-        title: "Expedition Chests",
-        description: "The current English data uses changed chest and Strongbox wording. A safe v0.1 pattern is pending confirmation.",
-        patterns: [],
+        title: "Buried Strongboxes",
+        description: "Finds Expeditions containing buried Strongboxes.",
+        patterns: [{ value: '"buried"', sourceText: "Expeditions contain (1–2) buried Strongboxes in Map" }],
         tags: ["chests", "strongboxes", "rare monsters", "expedition"],
         notes: ["Can become more valuable together with Rare Monsters."],
         category: "Expedition Tablet",
+        sources: [{ name: "PoE2DB Tablet modifiers", url: "https://poe2db.tw/us/Tablet", verifiedAt: "2026-09-24" }],
       }),
-      pending({
+      verified({
         id: "expedition-additional-azmeri",
-        title: "Additional Azmeri",
-        description: "The intended Expedition-specific interaction needs in-client confirmation for patch 0.5.5.",
-        patterns: [],
-        tags: ["azmeri", "chests", "expedition"],
-        notes: ["Can become more valuable together with Expedition Chests."],
+        title: "Rare Expedition Monsters",
+        description: "Finds increased numbers of Rare Expedition Monsters.",
+        patterns: [{ value: '"re e"', sourceText: "25–35% increased number of Rare Expedition Monsters in Map" }],
+        tags: ["rare monsters", "expedition"],
+        notes: ["The previous Additional Azmeri label was removed because it is not a current Expedition-specific modifier."],
         category: "Expedition Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
       }),
-      pending({
+      verified({
         id: "expedition-superior-remnants",
-        title: "Additional Superior Remnants",
-        description: "Current data sources use differing Remnant terminology, so the copyable expression remains withheld.",
-        patterns: [],
-        tags: ["superior remnants", "verisium remnants", "expedition"],
+        title: "Additional Verisium Remnant",
+        description: "Finds Expeditions with a chance to contain an additional Verisium Remnant.",
+        patterns: [{ value: '"nal ver"', sourceText: "Expeditions have 30–40% chance to contain an additional Verisium Remnant" }],
+        tags: ["verisium remnants", "expedition"],
         notes: ["Can become highly valuable together with additional Runic modifier rolls."],
         category: "Expedition Tablet",
+        sources: [{ name: "PoE2DB Tablet modifiers", url: "https://poe2db.tw/us/Tablet", verifiedAt: "2026-09-24" }],
       }),
       verified({
         id: "expedition-runic-modifier",
@@ -269,14 +315,21 @@ export const regexSections: RegexSection[] = [
     description: "Delirium searches for paired modifiers and focused tablet crafting.",
     group: "tablets",
     entries: [
-      pending({
+      verified({
         id: "delirium-additional-circle",
-        title: "Additional Circle",
-        description: "The exact 0.5.5 English modifier wording is still being confirmed.",
-        patterns: [],
-        tags: ["circle", "unique", "delirium"],
-        notes: ["Can become more valuable with an additional Unique-related modifier."],
+        title: "Summoning Circle + Unique Bosses",
+        description: "Requires both increased Summoning Circle chance and increased chance for Delirium Unique Bosses.",
+        patterns: [
+          { value: '"a s"', label: "Summoning Circle", sourceText: "Map has increased chance to contain a Summoning Circle" },
+          { value: '"nco"', label: "Unique Bosses", sourceText: "Delirium Encounters in Map are more likely to spawn Unique Bosses" },
+        ],
+        requireAllPatterns: true,
+        combinedPattern: '"a s" "nco"',
+        tags: ["summoning circle", "unique bosses", "delirium"],
+        notes: ["The previous Additional Circle label was replaced with the current English modifier pair."],
+        variant: "high-value",
         category: "Delirium Tablet",
+        sources: [{ name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" }],
       }),
       verified({
         id: "delirium-effectiveness-rare-monsters",
@@ -406,6 +459,9 @@ export const regexSections: RegexSection[] = [
 
 export const getRegexSection = (slug: string) =>
   regexSections.find((section) => section.slug === slug);
+
+export const getRegexEntry = (id: string) =>
+  regexSections.flatMap((section) => section.entries).find((entry) => entry.id === id);
 
 export const getSectionCount = (section: RegexSection) => section.entries.length;
 

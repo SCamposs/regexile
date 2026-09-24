@@ -21,10 +21,10 @@ export const metadata: Metadata = {
     template: "%s | Regexile",
   },
   description:
-    "Ready-to-copy Path of Exile 2 regex patterns for maps, tablets, Ritual, Expedition, Delirium, Breach and more.",
+    "Ready-to-copy Path of Exile 2 regex patterns and operational farming guides for maps, tablets, Ritual, Expedition, Delirium, Breach and more.",
   applicationName: "Regexile",
-  icons: {
-    icon: "/logo-dark-mode.png",
+  appleWebApp: {
+    title: "Regexile",
   },
 };
 

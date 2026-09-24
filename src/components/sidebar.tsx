@@ -8,6 +8,7 @@ import {
   Orbit,
   Pentagon,
   Radiation,
+  Sprout,
   Sparkles,
   Swords,
   type LucideIcon,
@@ -15,6 +16,7 @@ import {
 
 import { Logo } from "@/src/components/logo";
 import { GAME_LABEL } from "@/src/config/game";
+import type { FarmGuide } from "@/src/content/farms";
 import type { RegexSection } from "@/src/content/regex";
 
 const icons: Record<string, LucideIcon> = {
@@ -31,7 +33,8 @@ const icons: Record<string, LucideIcon> = {
 
 type SidebarProps = {
   sections: RegexSection[];
-  activeSlug: string;
+  farms?: FarmGuide[];
+  activePath: string;
   query?: string;
   mobile?: boolean;
   onNavigate?: () => void;
@@ -63,7 +66,7 @@ function NavItem({ section, active, query, onNavigate }: {
   );
 }
 
-export function Sidebar({ sections, activeSlug, query, mobile = false, onNavigate }: SidebarProps) {
+export function Sidebar({ sections, farms = [], activePath, query, mobile = false, onNavigate }: SidebarProps) {
   const mapSections = sections.filter((section) => section.group === "maps");
   const tabletSections = sections.filter((section) => section.group === "tablets");
 
@@ -74,20 +77,40 @@ export function Sidebar({ sections, activeSlug, query, mobile = false, onNavigat
         <span className="version-chip">{GAME_LABEL.replace("PoE2 ", "")}</span>
       </div>
 
-      <nav className="sidebar-nav" aria-label="Regex categories">
+      <nav className="sidebar-nav" aria-label="Regexile navigation">
         <div className="nav-group">
           <p className="nav-group-label">Core</p>
           {mapSections.map((section) => (
-            <NavItem key={section.slug} section={section} active={activeSlug === section.slug} query={query} onNavigate={onNavigate} />
+            <NavItem key={section.slug} section={section} active={activePath === section.path} query={query} onNavigate={onNavigate} />
           ))}
         </div>
 
         <div className="nav-group">
           <p className="nav-group-label">Tablets</p>
           {tabletSections.map((section) => (
-            <NavItem key={section.slug} section={section} active={activeSlug === section.slug} query={query} onNavigate={onNavigate} />
+            <NavItem key={section.slug} section={section} active={activePath === section.path} query={query} onNavigate={onNavigate} />
           ))}
         </div>
+
+        {farms.length ? (
+          <div className="nav-group">
+            <p className="nav-group-label">Farms</p>
+            {farms.map((farm) => (
+              <Link
+                key={farm.id}
+                href={farm.path}
+                className="sidebar-link"
+                data-active={activePath === farm.path || undefined}
+                aria-current={activePath === farm.path ? "page" : undefined}
+                onClick={onNavigate}
+              >
+                <Sprout aria-hidden="true" size={16} strokeWidth={1.8} />
+                <span>{farm.navigationLabel}</span>
+                <span className="sidebar-count" aria-label="Farm guide">Guide</span>
+              </Link>
+            ))}
+          </div>
+        ) : null}
       </nav>
 
       <div className="sidebar-footer">

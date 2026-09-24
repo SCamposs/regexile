@@ -10,7 +10,7 @@ Path of Exile 2 players who keep Regexile open beside the game, usually on a sec
 
 ## Product Purpose
 
-Regexile is a lightweight, source-controlled reference for useful Path of Exile 2 map and tablet regexes. Version 0.1 succeeds when players can find, understand, and copy a relevant pattern in seconds, while uncertain game strings are clearly separated from verified content.
+Regexile is a lightweight, source-controlled reference for useful Path of Exile 2 map and tablet regexes plus operational farming runbooks. Version 0.1 succeeds when players can find, understand, and copy a relevant pattern in seconds, or follow a farm while playing, while uncertain game strings are clearly separated from verified content.
 
 ## Brand Personality
 
@@ -27,6 +27,7 @@ Do not resemble a generic SaaS dashboard, trading terminal, neon HUD, crypto int
 - Optimize for peripheral scanning: dense rows, predictable alignment, and restrained semantic accents.
 - Keep every interaction immediate: keyboard search, direct copy feedback, and durable URLs.
 - Preserve an expandable information architecture without building future tools prematurely.
+- Keep farms data-driven and operational: preparation, setup, order, decisions, and referenced regex tools, without turning the product into a blog.
 
 ## Accessibility & Inclusion
 
