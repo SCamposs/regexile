@@ -1,4 +1,7 @@
 import { GAME_VERSION } from "@/src/config/game";
+import { gameAssets, type GameAsset } from "@/src/content/game-assets";
+
+export type { GameAsset } from "@/src/content/game-assets";
 
 export type FarmStep = {
   id: string;
@@ -16,11 +19,6 @@ export type FarmType = "city" | "transit" | "map-spam" | "mechanic" | "boss";
 export type FarmRegexGroup = {
   label: string;
   entryIds: string[];
-};
-
-export type GameAsset = {
-  src: string;
-  alt: string;
 };
 
 export type FarmChecklistItem = {
@@ -139,16 +137,6 @@ export type FarmGuide = {
   sections: FarmSection[];
   sources: FarmSource[];
 };
-
-const gameAssets = {
-  adaptiveCatalyst: { src: "/game-assets/adaptive-catalyst.webp", alt: "Adaptive Catalyst" },
-  breachTablet: { src: "/game-assets/breach-tablet.webp", alt: "Breach Tablet" },
-  freedomOfFaith: { src: "/game-assets/freedom-of-faith.webp", alt: "Freedom of Faith" },
-  headOfTheKing: { src: "/game-assets/head-of-the-king.webp", alt: "Head of the King" },
-  lavishWombgift: { src: "/game-assets/lavish-wombgift.webp", alt: "Lavish Wombgift" },
-  ritualTablet: { src: "/game-assets/ritual-tablet.webp", alt: "Ritual Tablet" },
-  waystoneTier15: { src: "/game-assets/waystone-tier-15.webp", alt: "Tier 15 Waystone" },
-} satisfies Record<string, GameAsset>;
 
 const ritualSources: FarmSource[] = [
   { name: "Path of Exile 2 Wiki: Ritual", url: "https://www.poe2wiki.net/wiki/Ritual", verifiedAt: "2026-09-24" },

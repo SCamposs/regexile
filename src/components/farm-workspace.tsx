@@ -77,11 +77,11 @@ function GameArtwork({ asset, size = "section" }: { asset: GameAsset; size?: "it
 function SectionHeading({ id, title, description, icon, asset }: { id: string; title: string; description?: string; icon?: React.ReactNode; asset?: GameAsset }) {
   return (
     <div className="farm-section-heading">
-      <div className={asset ? "farm-heading-lockup" : undefined}>
+      <div className="farm-heading-lockup">
         {asset ? <GameArtwork asset={asset} /> : null}
+        {!asset && icon ? <span className="farm-section-icon">{icon}</span> : null}
         <div><h2 id={id}>{title}</h2>{description ? <p>{description}</p> : null}</div>
       </div>
-      {icon}
     </div>
   );
 }
@@ -260,30 +260,49 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
 }
 
 function FarmGuideContent({ guide }: { guide: FarmGuide }) {
+  const titleParts = guide.title.split("—");
+  const displayTitle = titleParts.length > 1 ? titleParts.slice(1).join("—").trim() : guide.title;
+  const featuredRegexSection = guide.sections.find((section) => section.type === "regex");
+  const featuredRegexGroup = featuredRegexSection?.groups.find((group) => group.label.toLowerCase().includes("waystone"));
+
   return (
     <>
       <section className="section-header farm-header" aria-labelledby="page-title">
-        <div className="farm-title-lockup">
-          <GameArtwork asset={guide.artwork} size="hero" />
-          <div>
-            <p className="breadcrumb">Farms <span>/</span> <strong>{guide.navigationLabel}</strong></p>
-            <h1 id="page-title">{guide.title}</h1>
-            <p>{guide.description}</p>
+        <div className="farm-title-block">
+          <p className="breadcrumb">Farms <span>/</span> <strong>{guide.mechanic}</strong></p>
+          <div className="farm-title-lockup">
+            <div>
+              <h1 id="page-title">{displayTitle}</h1>
+              <p>{guide.description}</p>
+            </div>
+          </div>
+          <div className="farm-meta" aria-label="Farm metadata">
+            <span><strong>Patch</strong> {guide.gameVersion}</span>
+            <span><strong>Type</strong> {guide.farmTypes.map((type) => farmTypeLabels[type]).join(" / ")}</span>
+            <span><strong>Difficulty</strong> {guide.difficulty}</span>
+            <span><strong>Investment</strong> {guide.investment}</span>
           </div>
         </div>
-        <div className="farm-meta" aria-label="Farm metadata">
-          <span><strong>Patch</strong> {guide.gameVersion}</span>
-          <span><strong>Type</strong> {guide.farmTypes.map((type) => farmTypeLabels[type]).join(" / ")}</span>
-          <span><strong>Difficulty</strong> {guide.difficulty}</span>
-          <span><strong>Investment</strong> {guide.investment}</span>
-        </div>
       </section>
+
+      {featuredRegexGroup ? (
+        <section className="farm-section farm-regex-section farm-featured-regex" aria-labelledby="featured-regex-title">
+          <SectionHeading id="featured-regex-title" title="Waystone regex" description={featuredRegexGroup.label} icon={<Sparkles size={17} aria-hidden="true" />} />
+          <div className="entry-list">{resolveRegexEntries(featuredRegexGroup.entryIds).map((entry) => <RegexEntry key={entry.id} entry={entry} />)}</div>
+        </section>
+      ) : null}
 
       <div className="farm-flow" aria-label="Farm flow">
         {guide.flow.map((step, index) => <div className="farm-flow-step" key={step.id}><span>{step.label}</span>{index < guide.flow.length - 1 ? <ArrowRight size={14} aria-hidden="true" /> : null}</div>)}
       </div>
 
-      {guide.sections.map((section, index) => <FarmSectionContent key={`${section.type}-${section.title}`} section={section} sectionId={`farm-section-${index}`} />)}
+      {guide.sections.map((section, index) => {
+        const visibleSection = section.type === "regex" && featuredRegexGroup
+          ? { ...section, groups: section.groups.filter((group) => group !== featuredRegexGroup) }
+          : section;
+
+        return <FarmSectionContent key={`${section.type}-${section.title}`} section={visibleSection} sectionId={`farm-section-${index}`} />;
+      })}
 
       <section className="farm-sources" aria-labelledby="farm-sources-title">
         <h2 id="farm-sources-title">Verification sources</h2>

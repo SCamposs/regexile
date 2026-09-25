@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Cormorant_Garamond, Inter, JetBrains_Mono } from "next/font/google";
 
 import "./globals.css";
 
@@ -12,6 +12,13 @@ const inter = Inter({
 const jetBrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-display",
+  subsets: ["latin"],
+  weight: ["500", "600"],
   display: "swap",
 });
 
@@ -30,7 +37,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable} ${cormorantGaramond.variable}`}>
       <body>
         <div className="root">{children}</div>
       </body>

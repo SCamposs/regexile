@@ -1,35 +1,24 @@
 import Link from "next/link";
-import {
-  Aperture,
-  Boxes,
-  CircleDotDashed,
-  Gem,
-  Map,
-  Orbit,
-  Pentagon,
-  Radiation,
-  Sprout,
-  Sparkles,
-  Swords,
-  type LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
+import { Swords } from "lucide-react";
 
 import { Logo } from "@/src/components/logo";
 import { GAME_LABEL } from "@/src/config/game";
 import type { FarmGuide } from "@/src/content/farms";
+import { farmNavigationAssets, regexSectionAssets, type GameAsset } from "@/src/content/game-assets";
 import type { RegexSection } from "@/src/content/regex";
 
-const icons: Record<string, LucideIcon> = {
-  maps: Map,
-  general: Sparkles,
-  irradiated: Radiation,
-  ritual: Pentagon,
-  expedition: CircleDotDashed,
-  delirium: Orbit,
-  breach: Aperture,
-  abyss: Boxes,
-  temple: Gem,
-};
+function NavigationArtwork({ asset }: { asset?: GameAsset }) {
+  if (!asset) {
+    return <Swords aria-hidden="true" size={16} strokeWidth={1.8} />;
+  }
+
+  return (
+    <span className="sidebar-game-icon" aria-hidden="true">
+      <Image src={asset.src} alt="" width={28} height={28} sizes="28px" />
+    </span>
+  );
+}
 
 type SidebarProps = {
   sections: RegexSection[];
@@ -46,7 +35,6 @@ function NavItem({ section, active, query, onNavigate }: {
   query?: string;
   onNavigate?: () => void;
 }) {
-  const Icon = icons[section.slug] ?? Swords;
   const href = query ? `${section.path}?q=${encodeURIComponent(query)}` : section.path;
 
   return (
@@ -57,7 +45,7 @@ function NavItem({ section, active, query, onNavigate }: {
       aria-current={active ? "page" : undefined}
       onClick={onNavigate}
     >
-      <Icon aria-hidden="true" size={16} strokeWidth={1.8} />
+      <NavigationArtwork asset={regexSectionAssets[section.slug]} />
       <span>{section.navigationLabel}</span>
       <span className="sidebar-count" aria-label={`${section.entries.length} entries`}>
         {section.entries.length}
@@ -99,14 +87,13 @@ export function Sidebar({ sections, farms = [], activePath, query, mobile = fals
               <Link
                 key={farm.id}
                 href={farm.path}
-                className="sidebar-link"
+                className="sidebar-link sidebar-link-farm"
                 data-active={activePath === farm.path || undefined}
                 aria-current={activePath === farm.path ? "page" : undefined}
                 onClick={onNavigate}
               >
-                <Sprout aria-hidden="true" size={16} strokeWidth={1.8} />
+                <NavigationArtwork asset={farmNavigationAssets[farm.slug]} />
                 <span>{farm.navigationLabel}</span>
-                <span className="sidebar-count" aria-label="Farm guide">Guide</span>
               </Link>
             ))}
           </div>
