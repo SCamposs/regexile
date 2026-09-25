@@ -11,6 +11,8 @@ export type FarmSource = {
   verifiedAt: string;
 };
 
+export type FarmType = "city" | "transit" | "map-spam" | "mechanic" | "boss";
+
 export type FarmRegexGroup = {
   label: string;
   entryIds: string[];
@@ -103,7 +105,7 @@ export type FarmSection =
       type: "links";
       title: string;
       description?: string;
-      links: { label: string; url: string; note?: string }[];
+      links: { label: string; url: string; note?: string; external?: boolean }[];
     }
   | {
       type: "notes";
@@ -122,6 +124,7 @@ export type FarmGuide = {
   description: string;
   difficulty: string;
   investment: string;
+  farmTypes: FarmType[];
   flow: FarmStep[];
   sections: FarmSection[];
   sources: FarmSource[];
@@ -157,6 +160,7 @@ export const farmGuides: FarmGuide[] = [
     description: "High-reroll Ritual farming using the Rite of the Nameless, City maps, Freedom of Faith, Omen-focused Tablets and aggressive Favour rerolling.",
     difficulty: "High",
     investment: "High",
+    farmTypes: ["city", "mechanic"],
     flow: [
       { id: "waystone", label: "Prepare Waystone" },
       { id: "tablets", label: "Check Tablets" },
@@ -287,82 +291,117 @@ export const farmGuides: FarmGuide[] = [
     title: "Catalyst Farm — Hiveblood + Wombgift",
     mechanic: "Breach / Genesis Tree",
     gameVersion: GAME_VERSION,
-    description: "High-investment City strategy that stacks Hiveblood and Wombgift quantity across four Tablets and uses the Catalyst-focused Currency Womb tree.",
-    difficulty: "High",
-    investment: "High",
+    description: "Low-investment transit farm that adds Catalyst value while you spam maps toward the next City using cheap or already-owned Hiveblood + Wombgift Tablets.",
+    difficulty: "Low",
+    investment: "Low",
+    farmTypes: ["transit", "map-spam"],
     flow: [
-      { id: "city", label: "Select City" },
-      { id: "tree", label: "Verify Genesis Tree" },
-      { id: "tablets", label: "Insert 4 Tablets" },
+      { id: "destination", label: "Choose Next City" },
+      { id: "tree", label: "Equip Catalyst Tree" },
+      { id: "tablets", label: "Insert 3 Tablets" },
       { id: "waystone", label: "T15/T16 · 0 Revives" },
-      { id: "run", label: "Run Map" },
-      { id: "breach", label: "Complete Breach Content" },
+      { id: "run", label: "Spam Maps Toward City" },
       { id: "collect", label: "Collect Catalysts" },
-      { id: "check", label: "Price-check" },
-      { id: "repeat", label: "Repeat" },
+      { id: "continue", label: "Continue Atlas Path" },
+      { id: "reach", label: "Reach City" },
+      { id: "stop", label: "Stop Transit Farm" },
+      { id: "switch", label: "Switch Strategy" },
     ],
     sections: [
       {
         type: "summary",
-        title: "Setup",
-        description: "The complete expensive setup at a glance.",
+        title: "Quick setup",
+        description: "A light, low-cost setup for monetizing Atlas travel.",
         items: [
-          { label: "Location", value: "City" },
+          { label: "Type", value: "Transit / Map Spam", tone: "value" },
+          { label: "Destination", value: "Next City" },
           { label: "Waystone", value: "T15 / T16 · 0 Revives", tone: "warning" },
-          { label: "Tablets", value: "4× Hiveblood + Wombgift" },
-          { label: "Hiveblood", value: "60%+ each", tone: "value" },
-          { label: "Wombgift", value: "50%+ each", tone: "value" },
+          { label: "Tablets", value: "3× Hiveblood + Wombgift", tone: "value" },
+          { label: "Minimum roll", value: "None", tone: "value" },
+          { label: "Buying strategy", value: "Use owned / cheap Tablets", tone: "warning" },
           { label: "Tree", value: "Currency Womb · Catalyst setup", tone: "warning" },
-          { label: "Primary reward", value: "Catalysts", tone: "value" },
+          { label: "Reward", value: "Catalysts", tone: "value" },
         ],
       },
       {
         type: "checklists",
         title: "Pre-run checklist",
-        description: "Confirm every part before consuming the expensive setup.",
+        description: "Keep the setup cheap and the route pointed toward your next City.",
         columns: [
           {
             title: "Core setup",
             tone: "required",
             items: [
-              { id: "city", label: "City selected" },
-              { id: "slots", label: "Four Tablet slots available" },
+              { id: "path", label: "Pathing toward a City" },
               { id: "tree", label: "Correct Catalyst Currency Womb tree active" },
-              { id: "waystone", label: "T15 or T16 Waystone with 0 Revives" },
-              { id: "inserted", label: "Four farming Tablets inserted" },
+              { id: "tier", label: "T15 or T16 Waystone" },
+              { id: "revives", label: "0 Revives" },
             ],
           },
           {
-            title: "Every Tablet",
+            title: "Tablet check",
             tone: "recommended",
-            items: [1, 2, 3, 4].map((tablet) => ({ id: `tablet-${tablet}`, label: `Tablet ${tablet}`, detail: "Hiveblood >= 60% and Wombgifts >= 50%" })),
+            items: [
+              { id: "inserted", label: "3 Tablets inserted" },
+              { id: "hiveblood", label: "Each Tablet contains Hiveblood Quantity" },
+              { id: "wombgift", label: "Each Tablet contains Wombgift Quantity" },
+              { id: "cheap", label: "Tablets were owned already or acquired cheaply" },
+            ],
           },
-        ],
-      },
-      {
-        type: "tablets",
-        title: "Tablet requirements",
-        description: "For the high-investment version, both recommended thresholds belong on each of all four Tablets.",
-        status: "4 Tablets · both modifiers on every Tablet",
-        requirements: [
-          { id: "hiveblood", count: "4×", label: "Hiveblood quantity", range: "Current roll range: 30–60%", recommendation: "Recommended minimum: 60%", purpose: "Stack increased Quantity of Hiveblood found in Map across all four slots." },
-          { id: "wombgifts", count: "4×", label: "Wombgift quantity", range: "Current roll range: 30–60%", recommendation: "Recommended minimum: 50%", purpose: "Stack increased Quantity of Wombgifts found in Map across all four slots." },
-        ],
-        note: "These are recommended minimums for this expensive version, not hard game requirements. Rare Tablet numeric rolls may be improved with Divine Orbs when appropriate, but Divining is not always profitable.",
-      },
-      {
-        type: "regex",
-        title: "Regex for this farm",
-        description: "Copy the two thresholds separately or use the primary AND query to require both on the same Tablet.",
-        groups: [
-          { label: "Primary Tablet search", entryIds: ["breach-hiveblood-60-wombgifts-50"] },
-          { label: "Individual thresholds", entryIds: ["breach-hiveblood-60", "breach-wombgifts-50"] },
-          { label: "Waystone quality of life", entryIds: ["maps-zero-revives"] },
         ],
       },
       {
         type: "callout",
         tone: "danger",
+        eyebrow: "Low-investment rule",
+        title: "Don't overinvest",
+        paragraphs: [
+          "This farm works best as a low-cost way to monetize Tablets you already own or obtain naturally.",
+          "Paying a premium for high Hiveblood or Wombgift rolls can consume most or all of the strategy's margin.",
+        ],
+      },
+      {
+        type: "tablets",
+        title: "Tablet requirements",
+        description: "Every Tablet needs both quantity modifiers, but there is no minimum roll.",
+        status: "3 Tablets · both modifiers on every Tablet",
+        requirements: [
+          { id: "hiveblood", count: "3×", label: "Hiveblood quantity", range: "Required per Tablet", recommendation: "Any positive roll", purpose: "Each Tablet must include increased Quantity of Hiveblood found in Map." },
+          { id: "wombgifts", count: "3×", label: "Wombgift quantity", range: "Required per Tablet", recommendation: "Any positive roll", purpose: "Each Tablet must include increased Quantity of Wombgifts found in Map." },
+        ],
+        note: "Any roll works. Higher is better, but do not overpay for high rolls. The goal is to cheaply stack both modifiers across three Tablets.",
+      },
+      {
+        type: "ranked",
+        title: "Tablet buying priority",
+        description: "Preserve the low-investment edge by sourcing qualifying Tablets in this order.",
+        items: [
+          { rank: 1, label: "Use qualifying Tablets already in your stash", reason: "Existing resources keep the setup cost low." },
+          { rank: 2, label: "Save qualifying Tablets found while mapping", reason: "Natural drops can fund future travel without a separate purchase." },
+          { rank: 3, label: "Keep useful Reforging or Crafting outcomes", reason: "Save outcomes that naturally produce both required modifiers." },
+          { rank: 4, label: "Buy only cheap qualifying Tablets", reason: "Skip premium high-roll listings that undermine the farm's margin." },
+        ],
+      },
+      {
+        type: "regex",
+        title: "Primary Tablet search",
+        description: "Use this while sorting or reforging Tablets. Any Tablet matching both modifiers can be saved for this farm.",
+        groups: [
+          { label: "Required on the same Tablet · any roll", entryIds: ["breach-hiveblood-wombgifts"] },
+        ],
+      },
+      {
+        type: "callout",
+        tone: "gold",
+        title: "Why there is no minimum roll",
+        paragraphs: [
+          "Higher Hiveblood and Wombgift rolls improve the effect, but high-roll Tablets command a significant market premium.",
+          "This strategy aims to cheaply stack both modifiers across three Tablets and turn normal Atlas progression into additional Catalyst drops—not to maximize each Tablet.",
+        ],
+      },
+      {
+        type: "callout",
+        tone: "gold",
         eyebrow: "Critical setup dependency",
         title: "Correct Catalyst tree allocation is required",
         paragraphs: ["The intended version of this farm depends on the Catalyst path in the Genesis Tree Currency Womb. Do not consume the Lavish Wombgifts with a generic currency allocation active."],
@@ -386,10 +425,21 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "checklists",
         title: "Waystone requirements",
-        description: "The power comes from the City, four Tablets and the correct tree—not from specific Waystone affixes.",
+        description: "This is a map-spam strategy; only tier and revive count are prescribed.",
         columns: [
           { title: "Mandatory", tone: "required", items: [{ id: "tier", label: "Tier 15 or Tier 16" }, { id: "revives", label: "0 Revives", detail: "Use the shared positive search for Remaining Revives: 0." }] },
           { title: "No specific modifiers required", tone: "recommended", items: [{ id: "simple", label: "Any other affix combination is acceptable", detail: "Choose a map your build can complete reliably." }] },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Map selection and run speed",
+        description: "The farm should support Atlas movement, not dictate it.",
+        items: [
+          { label: "Map toward the City", detail: "Path toward your next City and run the maps you were going to run anyway.", tone: "value" },
+          { label: "Prefer comfortable routes", detail: "When route choices are equivalent, favor maps your build clears quickly and reliably." },
+          { label: "Keep moving", detail: "Clear efficiently, complete the relevant content, collect valuable Catalysts and continue the Atlas path." },
+          { label: "Avoid setup overhead", detail: "Do not treat these maps like a heavily juiced dedicated City farm." },
         ],
       },
       {
@@ -411,18 +461,24 @@ export const farmGuides: FarmGuide[] = [
         links: [{ label: "Check current Catalyst prices", url: "https://poe.ninja/poe2/economy/forbiddenrites/breach-catalyst", note: "poe.ninja · current PoE2 Catalyst category" }],
       },
       {
+        type: "links",
+        title: "After reaching the City",
+        description: "Stop the transit setup and consider a dedicated City strategy. Ritual is one option, not a requirement.",
+        links: [{ label: "Ritual — Head of the King", url: "/farms/ritual", note: "Optional related City farm", external: false }],
+      },
+      {
         type: "tags",
         title: "Not required",
         description: "Do not overcomplicate this setup with requirements from other farms.",
-        items: ["25% Pack Size", "25% Monster Rarity", "Specific Item Rarity", "Effectiveness", "Tribute generation", "Ritual modifiers", "Dedicated cashout setup", "Specific Waystone affix combinations"],
+        items: ["City access", "Four Tablet slots", "Minimum Hiveblood roll", "Minimum Wombgift roll", "Expensive Tablets", "Pack Size threshold", "Monster Rarity threshold", "Specific Waystone affixes"],
       },
       {
         type: "notes",
         title: "Operational notes",
         items: [
-          "City access is core because this setup relies on four simultaneous Tablet slots.",
-          "The exact Tablet market cost changes throughout the league; no fixed purchase price is part of this guide.",
-          "The guide intentionally documents setup and execution without profitability claims or personal test history.",
+          "The City is the destination, not the farming requirement. Stop this setup when you arrive and switch to a stronger City-specific strategy.",
+          "Low cost, map speed, Atlas progression and existing resources matter more than maximum rolls.",
+          "The guide intentionally avoids fixed Tablet prices, profitability claims and personal test history.",
         ],
       },
     ],

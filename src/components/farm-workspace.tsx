@@ -24,6 +24,14 @@ import { farmGuides, type FarmGuide, type FarmSection } from "@/src/content/farm
 import { getRegexEntry, regexSections, type RegexEntry as RegexEntryType } from "@/src/content/regex";
 import { filterEntries } from "@/src/lib/search";
 
+const farmTypeLabels: Record<FarmGuide["farmTypes"][number], string> = {
+  city: "City",
+  transit: "Transit",
+  "map-spam": "Map Spam",
+  mechanic: "Mechanic",
+  boss: "Boss",
+};
+
 function resolveRegexEntries(ids: string[]): RegexEntryType[] {
   return ids.map(getRegexEntry).filter((entry): entry is RegexEntryType => Boolean(entry));
 }
@@ -222,7 +230,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
       <section className="farm-section" aria-labelledby={sectionId}>
         <SectionHeading id={sectionId} title={section.title} description={section.description} />
         <div className="farm-link-list">
-          {section.links.map((link) => <a href={link.url} target="_blank" rel="noreferrer" key={link.url}><span><strong>{link.label}</strong>{link.note ? <small>{link.note}</small> : null}</span><ArrowUpRight size={16} aria-hidden="true" /></a>)}
+          {section.links.map((link) => <a href={link.url} target={link.external === false ? undefined : "_blank"} rel={link.external === false ? undefined : "noreferrer"} key={link.url}><span><strong>{link.label}</strong>{link.note ? <small>{link.note}</small> : null}</span>{link.external === false ? <ArrowRight size={16} aria-hidden="true" /> : <ArrowUpRight size={16} aria-hidden="true" />}</a>)}
         </div>
       </section>
     );
@@ -247,6 +255,7 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
         </div>
         <div className="farm-meta" aria-label="Farm metadata">
           <span><strong>Patch</strong> {guide.gameVersion}</span>
+          <span><strong>Type</strong> {guide.farmTypes.map((type) => farmTypeLabels[type]).join(" / ")}</span>
           <span><strong>Difficulty</strong> {guide.difficulty}</span>
           <span><strong>Investment</strong> {guide.investment}</span>
         </div>

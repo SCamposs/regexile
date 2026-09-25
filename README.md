@@ -6,7 +6,7 @@ The product is no longer limited to a regex catalogue: regex remains a core util
 
 ## Current features
 
-- Operational Farm Guides for Ritual and high-investment Hiveblood + Wombgift Catalyst farming
+- Operational Farm Guides for Ritual and low-investment Hiveblood + Wombgift Catalyst transit farming
 - Quick setup summaries, pre-run checklists, route/run flows, tree allocations, and reward references
 - Centralized Map and Tablet regex entries reused by Farm Guides instead of duplicated per page
 - Verified English modifier wording with visible sources and patch context

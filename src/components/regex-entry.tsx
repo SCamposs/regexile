@@ -50,7 +50,7 @@ function MultiPattern({ entry }: { entry: RegexEntryType }) {
       </div>
       <div className="combined-row">
         <span>Combined syntax: <code>{entry.combinedPattern}</code></span>
-        <CopyButton value={entry.combinedPattern ?? ""} label="Copy both" tone="gold" />
+        <CopyButton value={entry.combinedPattern ?? ""} label={entry.combinedCopyLabel ?? "Copy both"} tone="gold" />
       </div>
     </div>
   );
