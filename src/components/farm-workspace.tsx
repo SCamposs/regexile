@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import {
   AlertTriangle,
   ArrowRight,
@@ -8,19 +9,17 @@ import {
   BadgeCheck,
   Check,
   CircleDollarSign,
-  Gift,
   Info,
   ListChecks,
   Route,
   ShieldAlert,
   Sparkles,
   Tags,
-  TreePine,
 } from "lucide-react";
 
 import { RegexEntry } from "@/src/components/regex-entry";
 import { WorkspaceShell } from "@/src/components/workspace-shell";
-import { farmGuides, type FarmGuide, type FarmSection } from "@/src/content/farms";
+import { farmGuides, type FarmGuide, type FarmSection, type GameAsset } from "@/src/content/farms";
 import { getRegexEntry, regexSections, type RegexEntry as RegexEntryType } from "@/src/content/regex";
 import { filterEntries } from "@/src/lib/search";
 
@@ -65,10 +64,23 @@ function SearchResults({ query }: { query: string }) {
   );
 }
 
-function SectionHeading({ id, title, description, icon }: { id: string; title: string; description?: string; icon?: React.ReactNode }) {
+function GameArtwork({ asset, size = "section" }: { asset: GameAsset; size?: "item" | "section" | "hero" }) {
+  const pixels = size === "hero" ? 80 : size === "item" ? 30 : 42;
+
+  return (
+    <span className="game-artwork" data-size={size} title={asset.alt}>
+      <Image src={asset.src} alt="" width={pixels} height={pixels} />
+    </span>
+  );
+}
+
+function SectionHeading({ id, title, description, icon, asset }: { id: string; title: string; description?: string; icon?: React.ReactNode; asset?: GameAsset }) {
   return (
     <div className="farm-section-heading">
-      <div><h2 id={id}>{title}</h2>{description ? <p>{description}</p> : null}</div>
+      <div className={asset ? "farm-heading-lockup" : undefined}>
+        {asset ? <GameArtwork asset={asset} /> : null}
+        <div><h2 id={id}>{title}</h2>{description ? <p>{description}</p> : null}</div>
+      </div>
       {icon}
     </div>
   );
@@ -100,7 +112,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
                 <h3>{column.title}</h3>
               </div>
               <ul className="farm-checklist">
-                {column.items.map((item) => <li key={item.id}><Check size={14} aria-hidden="true" /><span><strong>{item.label}</strong>{item.detail}</span></li>)}
+                {column.items.map((item) => <li data-has-art={item.asset ? "true" : undefined} key={item.id}>{item.asset ? <GameArtwork asset={item.asset} size="item" /> : <Check size={14} aria-hidden="true" />}<span><strong>{item.label}</strong>{item.detail}</span></li>)}
               </ul>
             </div>
           ))}
@@ -134,7 +146,10 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
     return (
       <section className="farm-section" aria-labelledby={sectionId}>
         <div className="farm-section-heading">
-          <div><h2 id={sectionId}>{section.title}</h2><p>{section.description}</p></div>
+          <div className={section.asset ? "farm-heading-lockup" : undefined}>
+            {section.asset ? <GameArtwork asset={section.asset} /> : null}
+            <div><h2 id={sectionId}>{section.title}</h2><p>{section.description}</p></div>
+          </div>
           {section.status ? <span className="farm-section-status">{section.status}</span> : null}
         </div>
         <div className="tablet-coverage">
@@ -168,8 +183,8 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
     return (
       <section className="farm-section" aria-labelledby={sectionId}>
         <SectionHeading id={sectionId} title={section.title} description={section.description} />
-        <div className="decision-list farm-card-grid">
-          {section.items.map((item) => <article className="decision-row" data-tone={item.tone ?? "neutral"} key={item.label}><strong>{item.label}</strong><p>{item.detail}</p></article>)}
+        <div className="farm-guidance-list">
+          {section.items.map((item) => <article className="farm-guidance-row" data-tone={item.tone ?? "neutral"} key={item.label}><span className="guidance-marker" aria-hidden="true" /><div><strong>{item.label}</strong><p>{item.detail}</p></div></article>)}
         </div>
       </section>
     );
@@ -178,7 +193,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
   if (section.type === "tree") {
     return (
       <section className="farm-section" aria-labelledby={sectionId}>
-        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<TreePine size={18} aria-hidden="true" />} />
+        <SectionHeading id={sectionId} title={section.title} description={section.description} asset={section.asset} />
         <div className="tree-warning"><AlertTriangle size={16} aria-hidden="true" /><span>{section.warning}</span></div>
         <div className="farm-tree" data-tree-id={section.treeId}>
           {section.nodes.map((node) => (
@@ -209,7 +224,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
   if (section.type === "rewards") {
     return (
       <section className="farm-section" aria-labelledby={sectionId}>
-        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Gift size={18} aria-hidden="true" />} />
+        <SectionHeading id={sectionId} title={section.title} description={section.description} asset={section.asset} />
         <ul className="reward-grid">{section.items.map((item) => <li key={item}>{item}</li>)}</ul>
         {section.note ? <div className="farm-inline-note"><Info size={15} aria-hidden="true" /><span>{section.note}</span></div> : null}
       </section>
@@ -248,10 +263,13 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
   return (
     <>
       <section className="section-header farm-header" aria-labelledby="page-title">
-        <div>
-          <p className="breadcrumb">Farms <span>/</span> <strong>{guide.navigationLabel}</strong></p>
-          <h1 id="page-title">{guide.title}</h1>
-          <p>{guide.description}</p>
+        <div className="farm-title-lockup">
+          <GameArtwork asset={guide.artwork} size="hero" />
+          <div>
+            <p className="breadcrumb">Farms <span>/</span> <strong>{guide.navigationLabel}</strong></p>
+            <h1 id="page-title">{guide.title}</h1>
+            <p>{guide.description}</p>
+          </div>
         </div>
         <div className="farm-meta" aria-label="Farm metadata">
           <span><strong>Patch</strong> {guide.gameVersion}</span>

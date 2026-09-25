@@ -18,10 +18,16 @@ export type FarmRegexGroup = {
   entryIds: string[];
 };
 
+export type GameAsset = {
+  src: string;
+  alt: string;
+};
+
 export type FarmChecklistItem = {
   id: string;
   label: string;
   detail?: string;
+  asset?: GameAsset;
 };
 
 export type FarmSection =
@@ -50,6 +56,7 @@ export type FarmSection =
       title: string;
       description: string;
       status?: string;
+      asset?: GameAsset;
       requirements: {
         id: string;
         count: string;
@@ -80,6 +87,7 @@ export type FarmSection =
       description: string;
       treeId: string;
       warning: string;
+      asset?: GameAsset;
       nodes: { id: string; name: string; priority: "required" | "recommended"; note: string }[];
     }
   | {
@@ -94,6 +102,7 @@ export type FarmSection =
       description: string;
       items: string[];
       note?: string;
+      asset?: GameAsset;
     }
   | {
       type: "tags";
@@ -125,10 +134,21 @@ export type FarmGuide = {
   difficulty: string;
   investment: string;
   farmTypes: FarmType[];
+  artwork: GameAsset;
   flow: FarmStep[];
   sections: FarmSection[];
   sources: FarmSource[];
 };
+
+const gameAssets = {
+  adaptiveCatalyst: { src: "/game-assets/adaptive-catalyst.webp", alt: "Adaptive Catalyst" },
+  breachTablet: { src: "/game-assets/breach-tablet.webp", alt: "Breach Tablet" },
+  freedomOfFaith: { src: "/game-assets/freedom-of-faith.webp", alt: "Freedom of Faith" },
+  headOfTheKing: { src: "/game-assets/head-of-the-king.webp", alt: "Head of the King" },
+  lavishWombgift: { src: "/game-assets/lavish-wombgift.webp", alt: "Lavish Wombgift" },
+  ritualTablet: { src: "/game-assets/ritual-tablet.webp", alt: "Ritual Tablet" },
+  waystoneTier15: { src: "/game-assets/waystone-tier-15.webp", alt: "Tier 15 Waystone" },
+} satisfies Record<string, GameAsset>;
 
 const ritualSources: FarmSource[] = [
   { name: "Path of Exile 2 Wiki: Ritual", url: "https://www.poe2wiki.net/wiki/Ritual", verifiedAt: "2026-09-24" },
@@ -161,6 +181,7 @@ export const farmGuides: FarmGuide[] = [
     difficulty: "High",
     investment: "High",
     farmTypes: ["city", "mechanic"],
+    artwork: gameAssets.headOfTheKing,
     flow: [
       { id: "waystone", label: "Prepare Waystone" },
       { id: "tablets", label: "Check Tablets" },
@@ -182,10 +203,10 @@ export const farmGuides: FarmGuide[] = [
             title: "Mandatory",
             tone: "required",
             items: [
-              { id: "head", label: "Head of the King", detail: "Use it at Caer Tarth to begin the Rite of the Nameless." },
-              { id: "freedom", label: "Freedom of Faith", detail: "The unique Ritual Tablet doubles the available Favour rerolls." },
+              { id: "head", label: "Head of the King", detail: "Use it at Caer Tarth to begin the Rite of the Nameless.", asset: gameAssets.headOfTheKing },
+              { id: "freedom", label: "Freedom of Faith", detail: "The unique Ritual Tablet doubles the available Favour rerolls.", asset: gameAssets.freedomOfFaith },
               { id: "city", label: "City map coverage", detail: "Keep the selected maps inside City areas so the complete Tablet setup applies." },
-              { id: "tier", label: "Tier 15+ Waystones", detail: "Use Tier 15 Waystones or better for the documented setup." },
+              { id: "tier", label: "Tier 15+ Waystones", detail: "Use Tier 15 Waystones or better for the documented setup.", asset: gameAssets.waystoneTier15 },
               { id: "build", label: "Juiced Ritual clear", detail: "The character must comfortably clear dense Ritual encounters." },
             ],
           },
@@ -213,6 +234,7 @@ export const farmGuides: FarmGuide[] = [
         title: "Tablet coverage",
         description: "Distribute these modifiers across rare Ritual Tablets in any combination.",
         status: "Freedom of Faith + required coverage",
+        asset: gameAssets.ritualTablet,
         requirements: [
           { id: "omens", count: "2×", label: "Omen chance", range: "35–70% increased chance", recommendation: "Best: 70%", purpose: "Increases the share of Ritual Favours that are Omens." },
           { id: "defer", count: "2×", label: "Reduced Defer cost", range: "20–30% reduced Tribute", recommendation: "Best: 30%", purpose: "Keeps valuable Favours in the deferred pool at a lower Tribute cost." },
@@ -295,6 +317,7 @@ export const farmGuides: FarmGuide[] = [
     difficulty: "Low",
     investment: "Low",
     farmTypes: ["transit", "map-spam"],
+    artwork: gameAssets.lavishWombgift,
     flow: [
       { id: "destination", label: "Choose Next City" },
       { id: "tree", label: "Equip Catalyst Tree" },
@@ -333,8 +356,8 @@ export const farmGuides: FarmGuide[] = [
             tone: "required",
             items: [
               { id: "path", label: "Pathing toward a City" },
-              { id: "tree", label: "Correct Catalyst Currency Womb tree active" },
-              { id: "tier", label: "T15 or T16 Waystone" },
+              { id: "tree", label: "Correct Catalyst Currency Womb tree active", asset: gameAssets.adaptiveCatalyst },
+              { id: "tier", label: "T15 or T16 Waystone", asset: gameAssets.waystoneTier15 },
               { id: "revives", label: "0 Revives" },
             ],
           },
@@ -342,9 +365,9 @@ export const farmGuides: FarmGuide[] = [
             title: "Tablet check",
             tone: "recommended",
             items: [
-              { id: "inserted", label: "3 Tablets inserted" },
+              { id: "inserted", label: "3 Tablets inserted", asset: gameAssets.breachTablet },
               { id: "hiveblood", label: "Each Tablet contains Hiveblood Quantity" },
-              { id: "wombgift", label: "Each Tablet contains Wombgift Quantity" },
+              { id: "wombgift", label: "Each Tablet contains Wombgift Quantity", asset: gameAssets.lavishWombgift },
               { id: "cheap", label: "Tablets were owned already or acquired cheaply" },
             ],
           },
@@ -365,6 +388,7 @@ export const farmGuides: FarmGuide[] = [
         title: "Tablet requirements",
         description: "Every Tablet needs both quantity modifiers, but there is no minimum roll.",
         status: "3 Tablets · both modifiers on every Tablet",
+        asset: gameAssets.breachTablet,
         requirements: [
           { id: "hiveblood", count: "3×", label: "Hiveblood quantity", range: "Required per Tablet", recommendation: "Any positive roll", purpose: "Each Tablet must include increased Quantity of Hiveblood found in Map." },
           { id: "wombgifts", count: "3×", label: "Wombgift quantity", range: "Required per Tablet", recommendation: "Any positive roll", purpose: "Each Tablet must include increased Quantity of Wombgifts found in Map." },
@@ -412,6 +436,7 @@ export const farmGuides: FarmGuide[] = [
         description: "The verified Currency Womb path and Catalyst-specific branches. Connecting nodes are included so the setup remains actionable without a full tree renderer.",
         treeId: "BrequelTreeCurrency",
         warning: "Complete Refinement is the core conversion node. Enhanced Creation is reached through Jewel Catalyst Chance.",
+        asset: gameAssets.lavishWombgift,
         nodes: [
           { id: "BrequelTreeCurrency11", name: "Additional Item Chance", priority: "required", note: "Connecting node from the Currency Womb start into the Catalyst branch; grants 20% Surpassing chance to birth an additional item." },
           { id: "BrequelTreeCurrency32-33-40-43", name: "Catalyst Chance ×4", priority: "required", note: "Each node grants 15% chance for birthed Currency to be a Catalyst and forms the path to Complete Refinement." },
@@ -446,6 +471,7 @@ export const farmGuides: FarmGuide[] = [
         type: "rewards",
         title: "Catalysts to watch",
         description: "Examples worth price-checking. This is not a fixed ranking and contains no stored prices.",
+        asset: gameAssets.adaptiveCatalyst,
         items: [
           "Refined Sibilant Catalyst", "Refined Reaver Catalyst", "Refined Necrotic Catalyst", "Sibilant Catalyst",
           "Reaver Catalyst", "Skittering Catalyst", "Refined Xoph's Catalyst", "Refined Tul's Catalyst",
