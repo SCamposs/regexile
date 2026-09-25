@@ -100,6 +100,26 @@ export const regexSections: RegexSection[] = [
         category: "Maps",
       }),
       verified({
+        id: "maps-ritual-pack-size-monster-rarity-25",
+        title: "Ritual: 25%+ Pack Size + Monster Rarity",
+        description: "Requires both recommended Ritual Waystone stats at 25% or higher on the same Waystone.",
+        patterns: [
+          { value: '"k s.*(2[5-9]|[3-9].|\\d..)%"', label: "Pack Size 25%+", sourceText: "Pack Size: +25% or higher" },
+          { value: '"r rar.*(2[5-9]|[3-9].|\\d..)%"', label: "Monster Rarity 25%+", sourceText: "Monster Rarity: +25% or higher" },
+        ],
+        requireAllPatterns: true,
+        combinedPattern: '"k s.*(2[5-9]|[3-9].|\\d..)%" "r rar.*(2[5-9]|[3-9].|\\d..)%"',
+        combinedCopyLabel: "Copy Waystone regex",
+        tags: ["ritual", "pack size", "monster rarity", "25 percent", "waystone"],
+        notes: [
+          "Both quoted expressions are required, so both thresholds must be present on the same Waystone.",
+          "The numeric branch matches 25–29, 30–99 and three-digit values; 24 is excluded.",
+        ],
+        variant: "high-value",
+        category: "Maps",
+        sources: [{ name: "poe2.re Waystone generator", url: "https://github.com/veiset/poe.re/blob/master/poe2/src/pages/waystone/WaystoneResult.ts", verifiedAt: "2026-09-25" }],
+      }),
+      verified({
         id: "maps-effectiveness",
         title: "Monster Effectiveness",
         description: "Finds Waystones with increased monster effectiveness.",

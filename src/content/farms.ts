@@ -264,9 +264,9 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "regex",
         title: "Regex for this farm",
-        description: "Shared Regexile entries with the same copy controls used throughout the app.",
+        description: "The Waystone search requires both recommended 25%+ thresholds on the same item. Tablet entries remain separate.",
         groups: [
-          { label: "Waystones", entryIds: ["maps-pack-size", "maps-monster-rarity"] },
+          { label: "Waystone · both recommended thresholds", entryIds: ["maps-ritual-pack-size-monster-rarity-25"] },
           { label: "Ritual Tablets", entryIds: ["ritual-omen-chance", "ritual-reroll-favours", "ritual-reduced-defer-cost", "ritual-reduced-reroll-cost"] },
           { label: "Optional Tablet rolls", entryIds: ["ritual-increased-tribute", "ritual-rare-monsters"] },
         ],
