@@ -15,8 +15,8 @@ const jetBrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const cormorantGaramond = Cormorant_Garamond({
-  variable: "--font-display",
+const displayFallback = Cormorant_Garamond({
+  variable: "--font-display-fallback",
   subsets: ["latin"],
   weight: ["500", "600"],
   display: "swap",
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable} ${cormorantGaramond.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jetBrainsMono.variable} ${displayFallback.variable}`}>
       <body>
         <div className="root">{children}</div>
       </body>

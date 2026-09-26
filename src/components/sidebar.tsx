@@ -62,7 +62,6 @@ export function Sidebar({ sections, farms = [], activePath, query, mobile = fals
     <aside className={mobile ? "sidebar sidebar-mobile" : "sidebar"}>
       <div className="sidebar-brand-row">
         <Logo />
-        <span className="version-chip">{GAME_LABEL.replace("PoE2 ", "")}</span>
       </div>
 
       <nav className="sidebar-nav" aria-label="Regexile navigation">
@@ -105,10 +104,6 @@ export function Sidebar({ sections, farms = [], activePath, query, mobile = fals
           <span className="status-dot" aria-hidden="true" />
           <span>{GAME_LABEL} client</span>
           <span className="language-chip">EN</span>
-        </div>
-        <div className="shortcut-row">
-          <span>Focus search</span>
-          <kbd>/</kbd>
         </div>
       </div>
     </aside>

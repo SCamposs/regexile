@@ -13,8 +13,8 @@ colors:
   on-surface-variant: '#bdc8ce'
   outline: '#879298'
   outline-variant: '#3e484e'
-  primary: '#63d4fd'
-  on-primary: '#003545'
+  primary: '#c9a85e'
+  on-primary: '#151109'
   secondary: '#f0bf58'
   on-secondary: '#402d00'
   error: '#ffb4ab'
@@ -54,7 +54,7 @@ spacing:
 
 ## Brand & Style
 
-Regexile is a zero-noise utility for second-monitor use during Path of Exile 2 play. Its visual language combines developer-tool precision with subtle grim-fantasy cartographic discipline. Geometry is crisp and measured, surfaces are layered with deeply desaturated oceanic slate, and accents are surgical: cyan for interaction and syntax, muted antique gold for value and structural anchors.
+Regexile is a zero-noise utility for second-monitor use during Path of Exile 2 play. Its visual language combines developer-tool precision with subtle grim-fantasy editorial discipline. Geometry is crisp and measured, surfaces stay close to charcoal black, and a single muted antique-gold accent handles interaction, value, and structural anchors.
 
 Avoid synthetic sci-fi HUD styling, faux telemetry, excessive glow, ornate fantasy treatment, glassmorphism, consumer-app pills, and decorative shadows.
 
@@ -65,12 +65,11 @@ Avoid synthetic sci-fi HUD styling, faux telemetry, excessive glow, ornate fanta
 - Surface secondary: `#111A20`
 - Surface elevated: `#152027`
 - Border default: `#223039`
-- Border focused: `#079CC3`
+- Border focused: `#A9823D`
 - Text primary: `#F1F4F5`
 - Text secondary: `#9AA7AD`
 - Text muted: `#68767D`
-- Interaction cyan: `#079CC3`
-- Cyan bright: `#12B5DC`
+- Interaction gold: `#A9823D`
 - Value gold: `#C89B37`
 - Gold bright: `#DEA940`
 - Danger: `#C95B4B`
@@ -78,7 +77,7 @@ Avoid synthetic sci-fi HUD styling, faux telemetry, excessive glow, ornate fanta
 
 ## Typography
 
-Inter drives navigation, headings, descriptions, and structural labels. JetBrains Mono is reserved for regexes, modifier text, counts, keybindings, and technical metadata. Short micro-labels may use uppercase with modest tracking.
+Inter drives navigation, descriptions, and controls. Dignitary Grandeur is the preferred display face for farm names and primary headings, with Cormorant Garamond as the compatible fallback until licensed webfont files are available. JetBrains Mono is reserved for regexes, modifier text, counts, keybindings, and technical metadata. Short micro-labels may use uppercase with modest tracking.
 
 ## Layout & Spacing
 
@@ -88,7 +87,7 @@ Use 4px and 8px spacing within compact reference controls, 8px for related metad
 
 ## Elevation & Depth
 
-Establish depth through tonal layers and 1px structural lines. Primary cards and rows have no shadow. Overlays may use `0 8px 24px -4px rgba(0, 0, 0, 0.65)`. Focus uses a restrained cyan outline or inset ring.
+Establish depth through tonal layers and 1px structural lines. Primary cards and rows have no shadow. Overlays may use `0 8px 24px -4px rgba(0, 0, 0, 0.65)`. Focus uses a restrained antique-gold outline or inset ring.
 
 ## Shapes
 
@@ -98,18 +97,18 @@ Inputs, buttons, chips, and rows use a 4px radius. Structural panes use 6px. Cod
 
 ### Buttons
 
-- Primary: cyan background, off-white text, 4px radius; brighter cyan hover and a visible cyan focus ring.
+- Primary: antique-gold background, near-black text, 4px radius; brighter gold hover and a visible gold focus ring.
 - Secondary: secondary surface, structural border, off-white text; elevated hover.
 - Gold: transparent gold tint, gold text, gold border; reserved for important combined-copy actions.
 - Compact height 28px; standard height 34px.
 
 ### Text Inputs & Regex Pattern Bars
 
-Use a 34px inset surface with a 1px border and 4px radius. Regex typography is monospaced and cyan. Focus changes the border to cyan. Long code remains on one line and scrolls within its own region.
+Use a 34px inset surface with a 1px border and 4px radius. Regex typography is monospaced and antique gold. Focus changes the border to gold. Long code remains on one line and scrolls within its own region.
 
 ### Reference Chips & Filter Tags
 
-Use 11px monospaced labels, 22px height, 3px radius, a secondary surface, and a structural border. Active state uses a restrained cyan tint; value state uses a restrained gold tint.
+Use 11px monospaced labels, 22px height, 3px radius, a secondary surface, and a structural border. Active and value states use a restrained gold tint.
 
 ### Scannable Reference Lists
 

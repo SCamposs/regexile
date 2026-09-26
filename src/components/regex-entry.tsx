@@ -1,7 +1,6 @@
 import { BadgeCheck, CircleAlert, FlaskConical, Info, ShieldAlert } from "lucide-react";
 
 import { CopyButton } from "@/src/components/copy-button";
-import { GAME_CLIENT } from "@/src/config/game";
 import type { RegexEntry as RegexEntryType } from "@/src/content/regex";
 
 function VerificationLabel({ entry }: { entry: RegexEntryType }) {
@@ -11,7 +10,7 @@ function VerificationLabel({ entry }: { entry: RegexEntryType }) {
       : undefined;
     return (
       <span className="verification verification-verified" title={sourceSummary}>
-        <BadgeCheck size={13} aria-hidden="true" /> Verified <span aria-hidden="true">·</span> {GAME_CLIENT}
+        <BadgeCheck size={13} aria-hidden="true" /> Verified
       </span>
     );
   }
@@ -92,8 +91,6 @@ export function RegexEntry({ entry }: { entry: RegexEntryType }) {
           ))}
         </ul>
       ) : null}
-
-      {entry.verification === "verified" && entry.gameVersion ? <span className="entry-version">PoE2 {entry.gameVersion}</span> : null}
     </article>
   );
 }
