@@ -13,7 +13,6 @@ import {
   ListChecks,
   Route,
   ShieldAlert,
-  Sparkles,
   Tags,
 } from "lucide-react";
 
@@ -210,7 +209,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
   if (section.type === "regex") {
     return (
       <section className="farm-section farm-regex-section" aria-labelledby={sectionId}>
-        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Sparkles size={18} aria-hidden="true" />} />
+        <SectionHeading id={sectionId} title={section.title} description={section.description} />
         {section.groups.map((group) => (
           <div className="farm-regex-group" key={group.label}>
             <h3>{group.label}</h3>
@@ -287,7 +286,7 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
 
       {featuredRegexGroup ? (
         <section className="farm-section farm-regex-section farm-featured-regex" aria-labelledby="featured-regex-title">
-          <SectionHeading id="featured-regex-title" title="Waystone regex" description={featuredRegexGroup.label} icon={<Sparkles size={17} aria-hidden="true" />} />
+          <SectionHeading id="featured-regex-title" title="Waystone regex" description={featuredRegexGroup.label} />
           <div className="entry-list">{resolveRegexEntries(featuredRegexGroup.entryIds).map((entry) => <RegexEntry key={entry.id} entry={entry} />)}</div>
         </section>
       ) : null}

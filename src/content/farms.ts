@@ -499,16 +499,16 @@ export const farmGuides: FarmGuide[] = [
     sources: catalystSources,
   },
   {
-    id: "farm-jado-abyss",
-    slug: "jado-abyss",
-    path: "/farms/jado-abyss",
-    navigationLabel: "Jado Abyss",
-    title: "Abyss Farm — Jado",
-    mechanic: "Abyss / Jado",
+    id: "farm-abyss-rares",
+    slug: "abyss-rares",
+    path: "/farms/abyss-rares",
+    navigationLabel: "Abyss Rares",
+    title: "Abyss Rares",
+    mechanic: "Abyss",
     gameVersion: GAME_VERSION,
     description: "Four-Tablet City setup that stacks Abyss pits, Abyssal monster scaling and extra map modifiers, then runs corrupted T15 Waystones under 200% Delirium.",
     farmTypes: ["city", "mechanic"],
-    artwork: gameAssets.jado,
+    artwork: gameAssets.abyssTablet,
     flow: [
       { id: "tablets", label: "Build 4-Tablet Setup" },
       { id: "city", label: "Select City Maps" },
@@ -571,11 +571,11 @@ export const farmGuides: FarmGuide[] = [
         title: "Tablet Regexes",
         description: "Central Regexile entries for sorting the mandatory and useful Tablet modifiers in this setup.",
         groups: [
-          { label: "Key Abyss modifiers · any required line", entryIds: ["abyss-jado-key-mods"] },
+          { label: "Key Abyss modifiers · any required line", entryIds: ["abyss-rares-key-mods"] },
           { label: "Mandatory on every Tablet · exact +2 roll", entryIds: ["general-two-random-modifiers"] },
           { label: "Best optional modifier", entryIds: ["general-rare-monsters"] },
-          { label: "Other good optional modifiers", entryIds: ["abyss-jado-good-optional"] },
-          { label: "Strong single-Tablet convenience filter", entryIds: ["abyss-jado-strong-tablet"] },
+          { label: "Other good optional modifiers", entryIds: ["abyss-rares-good-optional"] },
+          { label: "Strong single-Tablet convenience filter", entryIds: ["abyss-rares-strong-tablet"] },
         ],
       },
       {
@@ -600,6 +600,14 @@ export const farmGuides: FarmGuide[] = [
               { id: "area-level", label: "Area Level 81 use case", detail: "T16 becomes relevant when a +1 Area Level Tablet pushes the map to Area Level 81 for item-level 82 gear." },
             ],
           },
+        ],
+      },
+      {
+        type: "regex",
+        title: "Waystone Regex",
+        description: "Recommended tier, modifier count and rarity targets for the maps used by this farm.",
+        groups: [
+          { label: "Waystone · T15+ · 6+ mods · 40%+ Item Rarity · 40%+ Monster Rarity", entryIds: ["maps-abyss-rares-item-monster-rarity-40"] },
         ],
       },
       {
@@ -630,15 +638,15 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "checklists",
         title: "Master",
-        description: "Use Jado with the three specified choices.",
+        description: "Jado. Allocate all three required nodes.",
         columns: [
           {
-            title: "Jado",
+            title: "Jado · all 3 required",
             tone: "required",
             items: [
-              { id: "partial-translations", label: "Partial Translations", asset: gameAssets.jado },
-              { id: "unforeseen-threats", label: "Unforeseen Threats" },
-              { id: "unexpected-missions", label: "Unexpected Missions" },
+              { id: "partial-translation", label: "Partial Translation", detail: "Required", asset: gameAssets.jadoPartialTranslation },
+              { id: "unforeseen-threats", label: "Unforeseen Threats", detail: "Required", asset: gameAssets.jadoUnforeseenThreats },
+              { id: "unexpected-mission", label: "Unexpected Mission", detail: "Required", asset: gameAssets.jadoUnexpectedMission },
             ],
           },
         ],
