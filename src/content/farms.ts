@@ -245,7 +245,7 @@ export const farmGuides: FarmGuide[] = [
       },
       {
         type: "callout",
-        tone: "danger",
+        tone: "gold",
         eyebrow: "Required run rule",
         title: "Boss Ritual first",
         paragraphs: ["Rush the map boss, kill it and complete the boss-room Ritual before any other altar. If a Summoning Circle Ritual is present, do it next. Then complete the remaining Rituals."],

@@ -1,4 +1,4 @@
-import { BadgeCheck, CircleAlert, FlaskConical, Info, ShieldAlert } from "lucide-react";
+import { BadgeCheck, CircleAlert, FlaskConical, Info } from "lucide-react";
 
 import { CopyButton } from "@/src/components/copy-button";
 import type { RegexEntry as RegexEntryType } from "@/src/content/regex";
@@ -64,7 +64,7 @@ export function RegexEntry({ entry }: { entry: RegexEntryType }) {
           {entry.variant === "high-value" ? (
             <span className="entry-badge entry-badge-gold">High value</span>
           ) : entry.variant === "warning" ? (
-            <span className="entry-badge entry-badge-danger"><ShieldAlert size={12} aria-hidden="true" /> Warning</span>
+            <span className="entry-badge entry-badge-danger"><span aria-hidden="true">!</span> Warning</span>
           ) : null}
           <span className="entry-category">{entry.category}</span>
         </div>

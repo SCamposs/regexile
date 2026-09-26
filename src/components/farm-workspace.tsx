@@ -3,16 +3,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import {
-  AlertTriangle,
   ArrowRight,
   ArrowUpRight,
-  BadgeCheck,
-  Check,
-  CircleDollarSign,
   Info,
   ListChecks,
   Route,
-  ShieldAlert,
   Tags,
 } from "lucide-react";
 
@@ -107,11 +102,10 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
           {section.columns.map((column) => (
             <div className={`farm-panel farm-panel-${column.tone}`} key={column.title}>
               <div className="farm-panel-title">
-                {column.tone === "required" ? <ShieldAlert size={16} aria-hidden="true" /> : <BadgeCheck size={16} aria-hidden="true" />}
                 <h3>{column.title}</h3>
               </div>
               <ul className="farm-checklist">
-                {column.items.map((item) => <li data-has-art={item.asset ? "true" : undefined} key={item.id}>{item.asset ? <GameArtwork asset={item.asset} size="item" /> : <Check size={14} aria-hidden="true" />}<span><strong>{item.label}</strong>{item.detail}</span></li>)}
+                {column.items.map((item) => <li data-has-art={item.asset ? "true" : undefined} key={item.id}>{item.asset ? <GameArtwork asset={item.asset} size="item" /> : <span className="checklist-marker" aria-hidden="true" />}<span><strong>{item.label}</strong>{item.detail}</span></li>)}
               </ul>
             </div>
           ))}
@@ -121,10 +115,9 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
   }
 
   if (section.type === "callout") {
-    const Icon = section.tone === "danger" ? AlertTriangle : section.tone === "gold" ? CircleDollarSign : Info;
     return (
-      <section className={`farm-callout farm-callout-${section.tone}`} aria-labelledby={sectionId}>
-        <Icon size={21} aria-hidden="true" />
+      <section className={`farm-callout farm-callout-${section.tone}`} data-has-marker={section.tone === "danger" || undefined} aria-labelledby={sectionId}>
+        {section.tone === "danger" ? <span className="warning-mark" aria-hidden="true">!</span> : null}
         <div>
           {section.eyebrow ? <span className="instruction-label">{section.eyebrow}</span> : null}
           <h2 id={sectionId}>{section.title}</h2>
@@ -193,11 +186,11 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
     return (
       <section className="farm-section" aria-labelledby={sectionId}>
         <SectionHeading id={sectionId} title={section.title} description={section.description} asset={section.asset} />
-        <div className="tree-warning"><AlertTriangle size={16} aria-hidden="true" /><span>{section.warning}</span></div>
+        <div className="tree-warning"><span className="warning-mark" aria-hidden="true">!</span><span>{section.warning}</span></div>
         <div className="farm-tree" data-tree-id={section.treeId}>
           {section.nodes.map((node) => (
             <article className="farm-tree-node" data-priority={node.priority} key={node.id}>
-              <span className="tree-node-check"><Check size={13} aria-hidden="true" /></span>
+              <span className="tree-node-marker" aria-hidden="true" />
               <div><div className="tree-node-title"><h3>{node.name}</h3><span>{node.priority}</span></div><p>{node.note}</p><code>{node.id}</code></div>
             </article>
           ))}
