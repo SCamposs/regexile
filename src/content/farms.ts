@@ -1,5 +1,5 @@
 import { GAME_VERSION } from "@/src/config/game";
-import { gameAssets, type GameAsset } from "@/src/content/game-assets";
+import { gameAssets, mechanicIcons, type GameAsset } from "@/src/content/game-assets";
 
 export type { GameAsset } from "@/src/content/game-assets";
 
@@ -129,8 +129,8 @@ export type FarmGuide = {
   mechanic: string;
   gameVersion: string;
   description: string;
-  difficulty: string;
-  investment: string;
+  difficulty?: string;
+  investment?: string;
   farmTypes: FarmType[];
   artwork: GameAsset;
   flow: FarmStep[];
@@ -497,6 +497,164 @@ export const farmGuides: FarmGuide[] = [
       },
     ],
     sources: catalystSources,
+  },
+  {
+    id: "farm-jado-abyss",
+    slug: "jado-abyss",
+    path: "/farms/jado-abyss",
+    navigationLabel: "Jado Abyss",
+    title: "Abyss Farm — Jado",
+    mechanic: "Abyss / Jado",
+    gameVersion: GAME_VERSION,
+    description: "Four-Tablet City setup that stacks Abyss pits, Abyssal monster scaling and extra map modifiers, then runs corrupted T15 Waystones under 200% Delirium.",
+    farmTypes: ["city", "mechanic"],
+    artwork: gameAssets.jado,
+    flow: [
+      { id: "tablets", label: "Build 4-Tablet Setup" },
+      { id: "city", label: "Select City Maps" },
+      { id: "waystones", label: "Roll & Corrupt Waystones" },
+      { id: "mirror", label: "Apply 200% Delirium" },
+      { id: "jado", label: "Run with Jado" },
+    ],
+    sections: [
+      {
+        type: "checklists",
+        title: "Setup",
+        description: "Core map-device and Atlas requirements for the strategy.",
+        columns: [
+          {
+            title: "Required",
+            tone: "required",
+            items: [
+              { id: "city", label: "City maps", detail: "Run Cities so all four Tablet slots can affect the map.", asset: gameAssets.waystoneTier15 },
+              { id: "tablets", label: "4× Abyss Tablets", detail: "Up to two may be replaced by other Tablet types to reduce the setup cost.", asset: gameAssets.abyssTablet },
+              { id: "delirium", label: "Grand Mirror · 200% Delirium", detail: "Use a Grand Mirror to run the maps at 200% Delirium.", asset: mechanicIcons.delirium },
+            ],
+          },
+          {
+            title: "Map target",
+            tone: "recommended",
+            items: [
+              { id: "tier", label: "T15 Waystones", detail: "Use 6–8 modifier T15 Waystones for the normal version of the farm.", asset: gameAssets.waystoneTier15 },
+              { id: "mods", label: "8 modifiers ideal · good 6 modifiers valid", detail: "Eight modifiers are ideal but difficult to sustain; run strong six-modifier Waystones too." },
+            ],
+          },
+        ],
+      },
+      {
+        type: "tablets",
+        title: "Tablets",
+        description: "Distribute the Abyss requirements across four Tablets. Every Tablet must carry the +2 random-modifier roll.",
+        status: "4 Tablets · +2 modifiers on every Tablet",
+        asset: gameAssets.abyssTablet,
+        requirements: [
+          { id: "closed-pit", count: "1×", label: "Effectiveness per closed Pit", range: "Required across setup", recommendation: "One source", purpose: "Abyssal Monsters have increased Effectiveness for each closed Pit, up to 100%." },
+          { id: "four-abysses", count: "1×", label: "Four additional Abysses", range: "Required across setup", recommendation: "One source", purpose: "Map has a chance to contain four additional Abysses." },
+          { id: "two-modifiers", count: "4×", label: "Two additional random Modifiers", range: "Required on every Tablet", recommendation: "Exact +2 roll", purpose: "Each of the four Tablets must add two random map modifiers; the +1 roll is not sufficient." },
+          { id: "abyssal-modifiers", count: "1–2×", label: "Abyssal Modifiers chance", range: "At least one source", recommendation: "One always · two acceptable", purpose: "Increases the chance for Abyssal monsters in the map to have Abyssal Modifiers." },
+        ],
+        note: "Start with four Abyss Tablets. Replacing up to two with other Tablet types is the cheaper alternative, but preserve all mandatory coverage and the +2 roll on every Tablet.",
+        extras: {
+          title: "Best additional modifiers",
+          items: [
+            "Increased number of Rare Monsters — best option after +2 random modifiers",
+            "Pack Size in Map",
+            "Monster Rarity",
+            "Rarity of Items found in Map",
+            "Monster Effectiveness — useful, but less valuable because the setup already stacks it heavily",
+            "Abysses in Map spawn increased Monsters — useful, but its exact strength is uncertain",
+          ],
+        },
+      },
+      {
+        type: "regex",
+        title: "Tablet Regexes",
+        description: "Central Regexile entries for sorting the mandatory and useful Tablet modifiers in this setup.",
+        groups: [
+          { label: "Key Abyss modifiers · any required line", entryIds: ["abyss-jado-key-mods"] },
+          { label: "Mandatory on every Tablet · exact +2 roll", entryIds: ["general-two-random-modifiers"] },
+          { label: "Best optional modifier", entryIds: ["general-rare-monsters"] },
+          { label: "Other good optional modifiers", entryIds: ["abyss-jado-good-optional"] },
+          { label: "Strong single-Tablet convenience filter", entryIds: ["abyss-jado-strong-tablet"] },
+        ],
+      },
+      {
+        type: "checklists",
+        title: "Maps / Waystones",
+        description: "Map selection rules for the four-slot City setup.",
+        columns: [
+          {
+            title: "Standard run",
+            tone: "required",
+            items: [
+              { id: "cities", label: "Run Cities", detail: "City layouts provide the four Tablet slots required by the full setup." },
+              { id: "t15", label: "T15 · 6–8 modifiers", detail: "T15 is the baseline. Prioritize good six-modifier maps and ideal eight-modifier maps." },
+              { id: "deli", label: "200% Delirium", detail: "Use the Grand Mirror before running the prepared maps.", asset: mechanicIcons.delirium },
+            ],
+          },
+          {
+            title: "T16 is optional",
+            tone: "recommended",
+            items: [
+              { id: "t16", label: "Run or sell T16 Waystones", detail: "T16 does not inherently improve this farm's loot over T15." },
+              { id: "area-level", label: "Area Level 81 use case", detail: "T16 becomes relevant when a +1 Area Level Tablet pushes the map to Area Level 81 for item-level 82 gear." },
+            ],
+          },
+        ],
+      },
+      {
+        type: "checklists",
+        title: "Waystone Preparation",
+        description: "Prepare each map before committing it to the City setup.",
+        columns: [
+          {
+            title: "Preparation sequence",
+            tone: "required",
+            items: [
+              { id: "six-mod", label: "Start from a 6-modifier Waystone", detail: "Six modifiers are the practical baseline for maps worth finishing." },
+              { id: "effectiveness-omen", label: "Use Omen of Chaotic Effectiveness", detail: "This is the prescribed Omen for the preparation step.", asset: gameAssets.omenChaoticEffectiveness },
+              { id: "corrupt", label: "Corrupt every prepared Waystone", detail: "The strategy calls for corrupting all prepared maps." },
+            ],
+          },
+          {
+            title: "Optional / outcomes",
+            tone: "recommended",
+            items: [
+              { id: "quantity-omen", label: "Omen of Chaotic Quantity", detail: "Optional.", asset: gameAssets.omenChaoticQuantity },
+              { id: "eight-mod", label: "8 modifiers ideal", detail: "Eight modifiers are ideal but difficult to sustain." },
+              { id: "six-mod-valid", label: "Good 6 modifiers remain valid", detail: "Keep strong six-modifier maps in the rotation." },
+            ],
+          },
+        ],
+      },
+      {
+        type: "checklists",
+        title: "Master",
+        description: "Use Jado with the three specified choices.",
+        columns: [
+          {
+            title: "Jado",
+            tone: "required",
+            items: [
+              { id: "partial-translations", label: "Partial Translations", asset: gameAssets.jado },
+              { id: "unforeseen-threats", label: "Unforeseen Threats" },
+              { id: "unexpected-missions", label: "Unexpected Missions" },
+            ],
+          },
+        ],
+      },
+      {
+        type: "notes",
+        title: "Notes",
+        items: [
+          "The strong Tablet regex checks one Tablet for +2 random modifiers plus one useful modifier. It does not certify the complete four-Tablet setup.",
+          "Four Abyss Tablets are the full setup; replacing up to two with other Tablets is only the cheaper alternative.",
+          "T16 is optional. Its specific use here is reaching Area Level 81 with a +1 Area Level Tablet for item-level 82 gear.",
+          "Eight-modifier Waystones are ideal, but good six-modifier Waystones remain valid and should be run.",
+        ],
+      },
+    ],
+    sources: [],
   },
 ];
 

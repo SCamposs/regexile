@@ -279,8 +279,8 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
           <div className="farm-meta" aria-label="Farm metadata">
             <span><strong>Patch</strong> {guide.gameVersion}</span>
             <span><strong>Type</strong> {guide.farmTypes.map((type) => farmTypeLabels[type]).join(" / ")}</span>
-            <span><strong>Difficulty</strong> {guide.difficulty}</span>
-            <span><strong>Investment</strong> {guide.investment}</span>
+            {guide.difficulty ? <span><strong>Difficulty</strong> {guide.difficulty}</span> : null}
+            {guide.investment ? <span><strong>Investment</strong> {guide.investment}</span> : null}
           </div>
         </div>
       </section>
@@ -304,10 +304,12 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
         return <FarmSectionContent key={`${section.type}-${section.title}`} section={visibleSection} sectionId={`farm-section-${index}`} />;
       })}
 
-      <section className="farm-sources" aria-labelledby="farm-sources-title">
-        <h2 id="farm-sources-title">Verification sources</h2>
-        <div>{guide.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>{source.name}<ArrowUpRight size={12} aria-hidden="true" /></a>)}</div>
-      </section>
+      {guide.sources.length ? (
+        <section className="farm-sources" aria-labelledby="farm-sources-title">
+          <h2 id="farm-sources-title">Verification sources</h2>
+          <div>{guide.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>{source.name}<ArrowUpRight size={12} aria-hidden="true" /></a>)}</div>
+        </section>
+      ) : null}
 
       <footer className="legal-note">Regexile is an unofficial Path of Exile 2 community tool and is not affiliated with or endorsed by Grinding Gear Games.</footer>
     </>

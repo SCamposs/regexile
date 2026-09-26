@@ -14,7 +14,10 @@ The Path of Exile 2 Wiki was used to confirm item names and icon categories. PoE
 | `freedom-of-faith.webp` | Freedom of Faith | https://www.poe2wiki.net/wiki/Freedom_of_Faith |
 | `head-of-the-king.webp` | Head of the King | https://www.poe2wiki.net/wiki/Head_of_the_King |
 | `irradiated-tablet.webp` | Irradiated Tablet | https://poe2db.tw/us/Irradiated_Tablet |
+| `jado.webp` | Jado | https://poe2db.tw/us/Jado |
 | `lavish-wombgift.webp` | Lavish Wombgift | https://www.poe2wiki.net/wiki/Lavish_Wombgift |
+| `omen-chaotic-effectiveness.webp` | Omen of Chaotic Effectiveness | https://poe2db.tw/Omen_of_Chaotic_Effectiveness |
+| `omen-chaotic-quantity.webp` | Omen of Chaotic Quantity | https://poe2db.tw/Omen_of_Chaotic_Quantity |
 | `overseer-tablet.webp` | Overseer Tablet | https://poe2db.tw/us/Overseer_Tablet |
 | `ritual-tablet.webp` | Ritual Tablet | https://www.poe2wiki.net/wiki/Ritual_Tablet |
 | `temple-tablet.webp` | Temple Tablet | https://poe2db.tw/us/Temple_Tablet |

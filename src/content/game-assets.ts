@@ -12,7 +12,10 @@ export const gameAssets = {
   freedomOfFaith: { src: "/game-assets/freedom-of-faith.webp", alt: "Freedom of Faith" },
   headOfTheKing: { src: "/game-assets/head-of-the-king.webp", alt: "Head of the King" },
   irradiatedTablet: { src: "/game-assets/irradiated-tablet.webp", alt: "Irradiated Tablet" },
+  jado: { src: "/game-assets/jado.webp", alt: "Jado" },
   lavishWombgift: { src: "/game-assets/lavish-wombgift.webp", alt: "Lavish Wombgift" },
+  omenChaoticEffectiveness: { src: "/game-assets/omen-chaotic-effectiveness.webp", alt: "Omen of Chaotic Effectiveness" },
+  omenChaoticQuantity: { src: "/game-assets/omen-chaotic-quantity.webp", alt: "Omen of Chaotic Quantity" },
   overseerTablet: { src: "/game-assets/overseer-tablet.webp", alt: "Overseer Tablet" },
   ritualTablet: { src: "/game-assets/ritual-tablet.webp", alt: "Ritual Tablet" },
   templeTablet: { src: "/game-assets/temple-tablet.webp", alt: "Temple Tablet" },
@@ -45,4 +48,5 @@ export const regexSectionAssets: Record<string, GameAsset> = {
 export const farmNavigationAssets: Record<string, GameAsset> = {
   ritual: mechanicIcons.ritual,
   catalyst: mechanicIcons.breach,
+  "jado-abyss": mechanicIcons.abyss,
 };

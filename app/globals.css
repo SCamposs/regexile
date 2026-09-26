@@ -1096,6 +1096,10 @@ kbd {
   gap: 0.75rem;
 }
 
+.requirement-columns > :only-child {
+  grid-column: 1 / -1;
+}
+
 .farm-panel {
   padding: 0.75rem;
   border: 1px solid var(--border-default);
@@ -2178,6 +2182,8 @@ kbd {
 
   .farm-section-heading {
     align-items: flex-start;
+    flex-direction: column;
+    gap: 0.375rem;
   }
 
   .farm-section-status {
