@@ -28,7 +28,23 @@ export type FarmChecklistItem = {
   asset?: GameAsset;
 };
 
+export type FarmMasterNode = {
+  id: string;
+  name: string;
+  summary: string;
+  asset: GameAsset;
+};
+
 export type FarmSection =
+  | {
+      type: "master";
+      title: string;
+      description?: string;
+      name: string;
+      portrait: GameAsset;
+      required: FarmMasterNode[];
+      optional?: FarmMasterNode[];
+    }
   | {
       type: "summary";
       title: string;
@@ -636,19 +652,15 @@ export const farmGuides: FarmGuide[] = [
         ],
       },
       {
-        type: "checklists",
+        type: "master",
         title: "Master",
-        description: "Jado. Allocate all three required nodes.",
-        columns: [
-          {
-            title: "Jado · all 3 required",
-            tone: "required",
-            items: [
-              { id: "partial-translation", label: "Partial Translation", detail: "Required", asset: gameAssets.jadoPartialTranslation },
-              { id: "unforeseen-threats", label: "Unforeseen Threats", detail: "Required", asset: gameAssets.jadoUnforeseenThreats },
-              { id: "unexpected-mission", label: "Unexpected Mission", detail: "Required", asset: gameAssets.jadoUnexpectedMission },
-            ],
-          },
+        description: "Jado's Spycraft supports the corrupted Waystones and Tablet scaling used by this setup.",
+        name: "Jado",
+        portrait: gameAssets.jado,
+        required: [
+          { id: "partial-translations", name: "Partial Translations", summary: "Gives Tablet explicit modifiers a chance to apply at double effect.", asset: gameAssets.jadoPartialTranslation },
+          { id: "unforeseen-threats", name: "Unforeseen Threats", summary: "Map completions can reveal a nearby Anomaly Map.", asset: gameAssets.jadoUnforeseenThreats },
+          { id: "unexpected-missions", name: "Unexpected Missions", summary: "Corrupted Waystones open a random basic Map Area with an additional random modifier.", asset: gameAssets.jadoUnexpectedMission },
         ],
       },
       {

@@ -1090,6 +1090,91 @@ kbd {
   grid-column: 1 / -1;
 }
 
+.farm-master {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 0.875rem 0;
+  border-top: 1px solid rgba(201, 168, 94, 0.38);
+  border-bottom: 1px solid var(--border-default);
+}
+
+.farm-master-identity {
+  min-width: 0;
+}
+
+.farm-master-portrait {
+  position: relative;
+  width: 8rem;
+  height: 7rem;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.farm-master-portrait img {
+  object-fit: cover;
+  object-position: center 22%;
+  filter: saturate(0.82) contrast(1.05);
+}
+
+.farm-master-identity span,
+.farm-master-group > h3 {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-family: var(--font-jetbrains-mono), monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.farm-master-identity h3 {
+  margin: 0.125rem 0 0;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.farm-master-groups {
+  display: grid;
+  gap: 0.875rem;
+  min-width: 0;
+}
+
+.farm-master-group > h3 {
+  margin: 0 0 0.375rem;
+}
+
+.farm-master-nodes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 1.25rem;
+}
+
+.farm-master-node {
+  display: grid;
+  grid-template-columns: 2.25rem minmax(0, 1fr);
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+  padding: 0.5rem 0;
+  border-top: 1px solid var(--border-default);
+}
+
+.farm-master-node strong {
+  color: var(--text-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.farm-master-node p {
+  margin: 0.125rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.6875rem;
+  line-height: 1.45;
+}
+
 .farm-panel {
   padding: 0.75rem 0;
   border: 0;
@@ -2122,7 +2207,28 @@ kbd {
   }
 
   .requirement-columns,
-  .mechanic-notes {
+  .mechanic-notes,
+  .farm-master {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .farm-master-identity {
+    display: grid;
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .farm-master-portrait {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .farm-master-identity span {
+    margin-top: 0;
+  }
+
+  .farm-master-nodes {
     grid-template-columns: minmax(0, 1fr);
   }
 

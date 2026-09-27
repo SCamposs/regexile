@@ -81,6 +81,40 @@ function SectionHeading({ id, title, description, icon, asset }: { id: string; t
 }
 
 function FarmSectionContent({ section, sectionId }: { section: FarmSection; sectionId: string }) {
+  if (section.type === "master") {
+    const nodeGroups = [
+      { label: "Required nodes", nodes: section.required },
+      ...(section.optional?.length ? [{ label: "Optional", nodes: section.optional }] : []),
+    ];
+
+    return (
+      <section className="farm-section" aria-labelledby={sectionId}>
+        <SectionHeading id={sectionId} title={section.title} description={section.description} />
+        <div className="farm-master">
+          <div className="farm-master-identity">
+            <div className="farm-master-portrait"><Image src={section.portrait.src} alt="" fill sizes="(max-width: 700px) 96px, 128px" /></div>
+            <div><span>Atlas Master</span><h3>{section.name}</h3></div>
+          </div>
+          <div className="farm-master-groups">
+            {nodeGroups.map((group) => (
+              <div className="farm-master-group" key={group.label}>
+                <h3>{group.label}</h3>
+                <div className="farm-master-nodes">
+                  {group.nodes.map((node) => (
+                    <article className="farm-master-node" key={node.id}>
+                      <GameArtwork asset={node.asset} size="item" />
+                      <div><strong>{node.name}</strong><p>{node.summary}</p></div>
+                    </article>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   if (section.type === "summary") {
     return (
       <section className="farm-section" aria-labelledby={sectionId}>
