@@ -10,10 +10,18 @@ The Path of Exile 2 Wiki was used to confirm item names and icon categories. PoE
 | `abyss-tablet.webp` | Abyss Tablet | https://poe2db.tw/us/Abyss_Tablet |
 | `breach-tablet.webp` | Breach Tablet | https://www.poe2wiki.net/wiki/Breach_Tablet |
 | `delirium-tablet.webp` | Delirium Tablet | https://poe2db.tw/us/Delirium_Tablet |
+| `doryani.jpg` | Doryani NPC screenshot | https://www.poe2wiki.net/wiki/Doryani |
+| `doryani-careful-procurement.webp` | Doryani node: Careful Procurement | https://poe2db.tw/Masters_of_the_Atlas |
+| `doryani-disengaged-safeties.webp` | Doryani node: Disengaged Safeties | https://poe2db.tw/Masters_of_the_Atlas |
+| `doryani-evolutionary-pressure.webp` | Doryani node: Evolutionary Pressure | https://poe2db.tw/Masters_of_the_Atlas |
+| `doryani-improved-calibration.webp` | Doryani node: Improved Calibration | https://poe2db.tw/Masters_of_the_Atlas |
+| `doryani-stitch-the-flesh.webp` | Doryani node: Stitch the Flesh | https://poe2db.tw/Masters_of_the_Atlas |
 | `expedition-tablet.webp` | Expedition Tablet | https://poe2db.tw/us/Expedition_Tablet |
 | `freedom-of-faith.webp` | Freedom of Faith | https://www.poe2wiki.net/wiki/Freedom_of_Faith |
+| `fracturing-orb.webp` | Fracturing Orb | https://poe2db.tw/us/Fracturing_Orb |
 | `head-of-the-king.webp` | Head of the King | https://www.poe2wiki.net/wiki/Head_of_the_King |
 | `irradiated-tablet.webp` | Irradiated Tablet | https://poe2db.tw/us/Irradiated_Tablet |
+| `jado.jpg` | Jado NPC screenshot | https://www.poe2wiki.net/wiki/Jado |
 | `jado-partial-translation.webp` | Jado node: Partial Translation | https://poe2db.tw/Masters_of_the_Atlas |
 | `jado-unforeseen-threats.webp` | Jado node: Unforeseen Threats | https://poe2db.tw/Masters_of_the_Atlas |
 | `jado-unexpected-mission.webp` | Jado node: Unexpected Mission | https://poe2db.tw/Masters_of_the_Atlas |
@@ -22,6 +30,7 @@ The Path of Exile 2 Wiki was used to confirm item names and icon categories. PoE
 | `omen-chaotic-quantity.webp` | Omen of Chaotic Quantity | https://poe2db.tw/Omen_of_Chaotic_Quantity |
 | `overseer-tablet.webp` | Overseer Tablet | https://poe2db.tw/us/Overseer_Tablet |
 | `ritual-tablet.webp` | Ritual Tablet | https://www.poe2wiki.net/wiki/Ritual_Tablet |
+| `sacred-bloom.webp` | Sacred Bloom | https://poe2db.tw/us/Sacred_Bloom |
 | `temple-tablet.webp` | Temple Tablet | https://poe2db.tw/us/Temple_Tablet |
 | `waystone-tier-15.webp` | Waystone (Tier 15) | https://www.poe2wiki.net/wiki/Waystone_(Tier_15) |
 
