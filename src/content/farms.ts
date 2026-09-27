@@ -86,6 +86,7 @@ export type FarmSection =
       type: "ranked";
       title: string;
       description: string;
+      asset?: GameAsset;
       items: { rank: number; label: string; reason: string }[];
       extras?: { title: string; items: string[]; note?: string };
     }
@@ -170,6 +171,18 @@ const catalystSources: FarmSource[] = [
   { name: "Path of Exile 2 Wiki: The Genesis Tree", url: "https://www.poe2wiki.net/wiki/The_Genesis_Tree", verifiedAt: "2026-09-24" },
   { name: "PoE2DB: Catalysts", url: "https://poe2db.tw/us/Catalysts", verifiedAt: "2026-09-24" },
   { name: "poe.ninja: PoE2 Catalysts", url: "https://poe.ninja/poe2/economy/forbiddenrites/breach-catalyst", verifiedAt: "2026-09-24" },
+];
+
+const fracturedOrbSources: FarmSource[] = [
+  { name: "PoE2DB: Masters of the Atlas", url: "https://poe2db.tw/Masters_of_the_Atlas", verifiedAt: "2026-09-27" },
+  { name: "Path of Exile 2 Wiki: Doryani", url: "https://www.poe2wiki.net/wiki/Doryani", verifiedAt: "2026-09-27" },
+  { name: "Path of Exile 2 Wiki: Cleansed", url: "https://www.poe2wiki.net/wiki/Cleansed", verifiedAt: "2026-09-27" },
+  { name: "Path of Exile 2 Wiki: Corrupted Nexus", url: "https://www.poe2wiki.net/wiki/Corrupted_Nexus", verifiedAt: "2026-09-27" },
+  { name: "Path of Exile 2 Wiki: Viridian Wildwood", url: "https://www.poe2wiki.net/wiki/The_Viridian_Wildwood", verifiedAt: "2026-09-27" },
+  { name: "PoE2DB: Version 0.5.5", url: "https://poe2db.tw/us/Version_0.5.5", verifiedAt: "2026-09-27" },
+  { name: "PoE2DB: Fracturing Orb", url: "https://poe2db.tw/us/Fracturing_Orb", verifiedAt: "2026-09-27" },
+  { name: "PoE2DB: Sacred Bloom", url: "https://poe2db.tw/us/Sacred_Bloom", verifiedAt: "2026-09-27" },
+  { name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-27" },
 ];
 
 export const farmGuides: FarmGuide[] = [
@@ -675,6 +688,181 @@ export const farmGuides: FarmGuide[] = [
       },
     ],
     sources: [],
+  },
+  {
+    id: "farm-fractured-orb",
+    slug: "fractured-orb",
+    path: "/farms/fractured-orb",
+    navigationLabel: "Fractured Orb",
+    title: "Fractured Orb",
+    mechanic: "Fractured Orb",
+    gameVersion: GAME_VERSION,
+    description: "Fast-clearing farm that combines cleansed areas, Viridian Wildwood and heavily modified Ritual Tablets for Fracturing Orb returns.",
+    investment: "High",
+    farmTypes: ["map-spam", "mechanic"],
+    artwork: gameAssets.fracturingOrb,
+    flow: [
+      { id: "cleanse", label: "Cleanse Area" },
+      { id: "wildwood", label: "Add Wildwood" },
+      { id: "tablets", label: "Socket 3 Ritual Tablets" },
+      { id: "wisps", label: "Collect Yellow → Purple → Blue" },
+      { id: "clear", label: "Full Clear Map" },
+      { id: "reinvest", label: "Keep or Sell Tablets" },
+    ],
+    sections: [
+      {
+        type: "summary",
+        title: "Overview",
+        description: "The practical setup at a glance.",
+        items: [
+          { label: "Area", value: "Cleansed Area", tone: "value" },
+          { label: "Mechanic", value: "Viridian Wildwood" },
+          { label: "Waystones", value: "T15 / T16 · 6+ mods" },
+          { label: "Ideal map", value: "8 modifiers", tone: "value" },
+          { label: "Tablets", value: "3× Ritual Tablets" },
+          { label: "Core roll", value: "+2 random modifiers", tone: "value" },
+          { label: "Best fit", value: "Fast full-clear builds" },
+          { label: "Return benchmark", value: "100+ Divines / 10 maps", tone: "value" },
+        ],
+      },
+      {
+        type: "master",
+        title: "Master",
+        description: "Doryani's Science turns explicit map modifiers into the core scaling engine for this farm.",
+        name: "Doryani",
+        portrait: gameAssets.doryani,
+        required: [
+          { id: "evolutionary-pressure", name: "Evolutionary Pressure", summary: "Scales item rarity, monster Effectiveness and rare-monster modifier chance with each explicit map modifier.", asset: gameAssets.doryaniEvolutionaryPressure },
+          { id: "improved-calibration", name: "Improved Calibration", summary: "Makes either Waystone prefixes or suffixes 25% more effective when the map is opened.", asset: gameAssets.doryaniImprovedCalibration },
+          { id: "careful-procurement", name: "Careful Procurement", summary: "Gives Magic monster packs a 35% chance to gain an additional modifier.", asset: gameAssets.doryaniCarefulProcurement },
+        ],
+        optional: [
+          { id: "stitch-the-flesh", name: "Stitch the Flesh", summary: "Adds a map revival, up to six. Recommended because these maps become heavily juiced.", asset: gameAssets.doryaniStitchTheFlesh },
+          { id: "disengaged-safeties", name: "Disengaged Safeties", summary: "Makes Map Areas Irradiated. Use this or another preferred node when survivability is already secure.", asset: gameAssets.doryaniDisengagedSafeties },
+        ],
+      },
+      {
+        type: "ranked",
+        title: "Area Prep / Cleansed Area",
+        description: "The farm only runs in a cleansed area. Prepare it through the Corrupted Nexus first.",
+        items: [
+          { rank: 1, label: "Travel to the Nexus", reason: "Open the Atlas route to the Corrupted Nexus." },
+          { rank: 2, label: "Find the marked corrupted zone", reason: "Follow the red-marked area associated with the Nexus." },
+          { rank: 3, label: "Kill the normal area boss", reason: "Complete the area's standard boss encounter." },
+          { rank: 4, label: "Kill the corrupted boss", reason: "Defeat the Corrupted Boss that appears afterwards." },
+          { rank: 5, label: "Use the cleansed area", reason: "The surrounding map area is now ready for this farm." },
+        ],
+      },
+      {
+        type: "ranked",
+        title: "Wildwood Priority",
+        description: "Use Sacred Blooms after cleansing to add Viridian Wildwood, then collect every available spirit in this order.",
+        asset: gameAssets.sacredBloom,
+        items: [
+          { rank: 1, label: "Yellow spirits", reason: "Always prioritize yellow first." },
+          { rank: 2, label: "Purple spirits", reason: "Take purple after securing available yellow spirits." },
+          { rank: 3, label: "Blue spirits", reason: "Blue is the lowest priority, but still take it when available." },
+        ],
+        extras: { title: "Sacred Bloom", items: ["Apply Sacred Blooms to the cleansed zone to add Viridian Wildwood."], note: "Priority controls routing, not whether a spirit should be skipped entirely." },
+      },
+      {
+        type: "tablets",
+        title: "Tablets",
+        description: "Use three Ritual Tablets. The +2 roll is the key condition on each prepared Tablet.",
+        status: "3 Ritual Tablets · +2 is core",
+        asset: gameAssets.ritualTablet,
+        requirements: [
+          { id: "two-random", count: "3×", label: "Two additional random Modifiers", range: "Core requirement", recommendation: "Exact +2 roll", purpose: "Map has 2 additional random Modifiers. The +1 version is the cheaper crafting starting point, not the finished target." },
+        ],
+        note: "Buy finished +2 Tablets when practical, or buy +1 bases and attempt to Divine, reroll or reforge them. Use Regexile filters while sorting results.",
+        extras: { title: "Recommended support modifiers", items: ["Monster Effectiveness", "Monster Rarity", "Pack Size in Map"] },
+      },
+      {
+        type: "regex",
+        title: "Tablet Regexes",
+        description: "Shared Regexile entries for the core roll, support rolls and one-Tablet convenience search.",
+        groups: [
+          { label: "+2 Random Modifiers · core requirement", entryIds: ["general-two-random-modifiers"] },
+          { label: "Good Support Mods · OR search", entryIds: ["fractured-orb-good-support-mods"] },
+          { label: "Strong Ritual Tablet · +2 and at least one support mod", entryIds: ["fractured-orb-strong-ritual-tablet"] },
+        ],
+      },
+      {
+        type: "checklists",
+        title: "Waystones",
+        description: "The map base is not important. Modifier count matters more than a particular layout or stat threshold.",
+        columns: [
+          {
+            title: "Required",
+            tone: "required",
+            items: [
+              { id: "tier", label: "Tier 15 or Tier 16", detail: "Either tier is valid for the farm.", asset: gameAssets.waystoneTier15 },
+              { id: "six-mod", label: "Minimum 6 modifiers", detail: "Six-modifier maps remain fully effective and valid." },
+            ],
+          },
+          {
+            title: "Recommended",
+            tone: "recommended",
+            items: [
+              { id: "eight-mod", label: "Prefer 8 modifiers", detail: "Eight modifiers are the ideal standard for stronger map juice." },
+              { id: "useful-stats", label: "Effectiveness and rarity", detail: "Both are useful, but neither has a required minimum percentage." },
+            ],
+          },
+        ],
+      },
+      {
+        type: "ranked",
+        title: "Execution",
+        description: "Keep the run focused on Wildwood first and a fast full clear afterwards.",
+        items: [
+          { rank: 1, label: "Socket the prepared Ritual Tablets", reason: "Confirm all three prepared Tablets before opening the map." },
+          { rank: 2, label: "Enter the cleansed T15/T16 map", reason: "Use a six-modifier map at minimum; prefer eight modifiers." },
+          { rank: 3, label: "Enter Viridian Wildwood first", reason: "Complete the Wildwood portion before the normal map clear." },
+          { rank: 4, label: "Route yellow, purple, then blue", reason: "Prioritize yellow and take every available spirit." },
+          { rank: 5, label: "Finish the Wildwood mechanic", reason: "Progress until the mechanic is complete and the return portal is available." },
+          { rank: 6, label: "Return to the map", reason: "Resume the normal map route after leaving Wildwood." },
+          { rank: 7, label: "Clear the map normally", reason: "Maintain a fast, direct clear path." },
+          { rank: 8, label: "Finish the full clear", reason: "The farm rewards builds that can clear the entire juiced map quickly." },
+        ],
+      },
+      {
+        type: "cards",
+        title: "Cost / Setup",
+        description: "Practical average estimates. Trade prices move and these values are not fixed guarantees.",
+        items: [
+          { label: "Waystones", detail: "Eight-mod maps are roughly 3 Chaos each on trade." },
+          { label: "Sacred Blooms", detail: "Budget roughly 4.5 Chaos worth per zone on average.", tone: "neutral" },
+          { label: "Ritual Tablets", detail: "Finished +2 random-modifier Tablets average roughly 3 Divines each. Buying +1 bases and crafting is the alternative.", tone: "value" },
+          { label: "Average setup", detail: "Plan around 9 Divines + 25 Chaos as a practical estimate, not a universal fixed price.", tone: "value" },
+        ],
+      },
+      {
+        type: "rewards",
+        title: "Validated Results",
+        description: "The tested setup supports a strong high-end return benchmark when execution and map quality are in place.",
+        asset: gameAssets.fracturingOrb,
+        items: ["100+ Divines / 10 maps"],
+        note: "Treat this as validated upside and realistic potential with proper execution and ideal maps, not a guaranteed return every ten maps.",
+      },
+      {
+        type: "rewards",
+        title: "Secondary Returns — Tablets",
+        description: "A ten-map test also produced reusable or sellable Tablets beyond the headline currency return.",
+        items: ["8× Abyss Tablets", "6× Irradiated Tablets", "2× Overseer Tablets"],
+        note: "Sell, keep or craft these drops. Their full potential crafted value is additional upside, not guaranteed farm return; useful combinations can help fund future mapping.",
+      },
+      {
+        type: "notes",
+        title: "Notes",
+        items: [
+          "Recommended for very fast map-clear builds, especially Twister-style setups, because speed and full clear strongly affect the result.",
+          "The strong Ritual Tablet regex validates one Tablet only. Confirm all three Tablets separately before starting the zone.",
+          "Blue spirits are lowest priority, not something to avoid. Take them when available after yellow and purple routing.",
+          "Use Regexile Tablet filters to identify strong secondary drops for sale, reuse or further crafting.",
+        ],
+      },
+    ],
+    sources: fracturedOrbSources,
   },
 ];
 

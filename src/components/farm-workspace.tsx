@@ -196,7 +196,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
   if (section.type === "ranked") {
     return (
       <section className="farm-section" aria-labelledby={sectionId}>
-        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Route size={18} aria-hidden="true" />} />
+        <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Route size={18} aria-hidden="true" />} asset={section.asset} />
         <ol className="route-priority">
           {section.items.map((item) => <li key={item.rank}><span className="route-rank">{item.rank}</span><div><strong>{item.label}</strong><p>{item.reason}</p></div></li>)}
         </ol>
