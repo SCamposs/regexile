@@ -10,7 +10,7 @@ The Path of Exile 2 Wiki was used to confirm item names and icon categories. PoE
 | `abyss-tablet.webp` | Abyss Tablet | https://poe2db.tw/us/Abyss_Tablet |
 | `breach-tablet.webp` | Breach Tablet | https://www.poe2wiki.net/wiki/Breach_Tablet |
 | `delirium-tablet.webp` | Delirium Tablet | https://poe2db.tw/us/Delirium_Tablet |
-| `doryani.jpg` | Doryani NPC screenshot | https://www.poe2wiki.net/wiki/Doryani |
+| `doryani.png` | Doryani transparent portrait | Supplied by the Regexile repository owner |
 | `doryani-careful-procurement.webp` | Doryani node: Careful Procurement | https://poe2db.tw/Masters_of_the_Atlas |
 | `doryani-disengaged-safeties.webp` | Doryani node: Disengaged Safeties | https://poe2db.tw/Masters_of_the_Atlas |
 | `doryani-evolutionary-pressure.webp` | Doryani node: Evolutionary Pressure | https://poe2db.tw/Masters_of_the_Atlas |
@@ -21,7 +21,8 @@ The Path of Exile 2 Wiki was used to confirm item names and icon categories. PoE
 | `fracturing-orb.webp` | Fracturing Orb | https://poe2db.tw/us/Fracturing_Orb |
 | `head-of-the-king.webp` | Head of the King | https://www.poe2wiki.net/wiki/Head_of_the_King |
 | `irradiated-tablet.webp` | Irradiated Tablet | https://poe2db.tw/us/Irradiated_Tablet |
-| `jado.jpg` | Jado NPC screenshot | https://www.poe2wiki.net/wiki/Jado |
+| `hilda.png` | Hilda transparent portrait | Supplied by the Regexile repository owner |
+| `jado.png` | Jado transparent portrait | Supplied by the Regexile repository owner |
 | `jado-partial-translation.webp` | Jado node: Partial Translation | https://poe2db.tw/Masters_of_the_Atlas |
 | `jado-unforeseen-threats.webp` | Jado node: Unforeseen Threats | https://poe2db.tw/Masters_of_the_Atlas |
 | `jado-unexpected-mission.webp` | Jado node: Unexpected Mission | https://poe2db.tw/Masters_of_the_Atlas |
