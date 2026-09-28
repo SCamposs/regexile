@@ -379,7 +379,7 @@ export const farmGuides: FarmGuide[] = [
       { id: "destination", label: "Choose Next City" },
       { id: "tree", label: "Equip Catalyst Tree" },
       { id: "tablets", label: "Insert 3 Tablets" },
-      { id: "waystone", label: "T15/T16 · 0 Revives" },
+      { id: "waystone", label: "T15/T16 Waystone" },
       { id: "run", label: "Spam Maps Toward City" },
       { id: "collect", label: "Collect Catalysts" },
       { id: "continue", label: "Continue Atlas Path" },
@@ -395,7 +395,7 @@ export const farmGuides: FarmGuide[] = [
         items: [
           { label: "Type", value: "Transit / Map Spam", tone: "value" },
           { label: "Destination", value: "Next City" },
-          { label: "Waystone", value: "T15 / T16 · 0 Revives", tone: "warning" },
+          { label: "Waystone", value: "T15 / T16", tone: "warning" },
           { label: "Tablets", value: "3× Hiveblood + Wombgift", tone: "value" },
           { label: "Minimum roll", value: "None", tone: "value" },
           { label: "Buying strategy", value: "Use owned / cheap Tablets", tone: "warning" },
@@ -415,7 +415,6 @@ export const farmGuides: FarmGuide[] = [
               { id: "path", label: "Pathing toward a City" },
               { id: "tree", label: "Correct Catalyst Currency Womb tree active", asset: gameAssets.adaptiveCatalyst },
               { id: "tier", label: "T15 or T16 Waystone", asset: gameAssets.waystoneTier15 },
-              { id: "revives", label: "0 Revives" },
             ],
           },
           {
@@ -507,9 +506,9 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "checklists",
         title: "Waystone requirements",
-        description: "This is a map-spam strategy; only tier and revive count are prescribed.",
+        description: "This is a map-spam strategy; only the Waystone tier is prescribed.",
         columns: [
-          { title: "Mandatory", tone: "required", items: [{ id: "tier", label: "Tier 15 or Tier 16" }, { id: "revives", label: "0 Revives", detail: "Use the shared positive search for Remaining Revives: 0." }] },
+          { title: "Mandatory", tone: "required", items: [{ id: "tier", label: "Tier 15 or Tier 16" }] },
           { title: "No specific modifiers required", tone: "recommended", items: [{ id: "simple", label: "Any other affix combination is acceptable", detail: "Choose a map your build can complete reliably." }] },
         ],
       },
