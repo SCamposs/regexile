@@ -7,8 +7,12 @@ The Path of Exile 2 Wiki was used to confirm item names and icon categories. PoE
 | Local file | Item | Reference |
 | --- | --- | --- |
 | `adaptive-catalyst.webp` | Adaptive Catalyst | https://www.poe2wiki.net/wiki/Adaptive_Catalyst |
+| `abyss-pit.png` | Abyss pit illustration | Supplied by the Regexile repository owner |
 | `abyss-tablet.webp` | Abyss Tablet | https://poe2db.tw/us/Abyss_Tablet |
+| `blue-wisp.png` | Blue Wildwood wisp illustration | Supplied by the Regexile repository owner |
 | `breach-tablet.webp` | Breach Tablet | https://www.poe2wiki.net/wiki/Breach_Tablet |
+| `cleansed-area.png` | Cleansed area illustration | Supplied by the Regexile repository owner |
+| `cryptic-key.png` | Cryptic Key illustration | Supplied by the Regexile repository owner |
 | `delirium-tablet.webp` | Delirium Tablet | https://poe2db.tw/us/Delirium_Tablet |
 | `doryani.png` | Doryani transparent portrait | Supplied by the Regexile repository owner |
 | `doryani-careful-procurement.webp` | Doryani node: Careful Procurement | https://poe2db.tw/Masters_of_the_Atlas |
@@ -32,10 +36,16 @@ The Path of Exile 2 Wiki was used to confirm item names and icon categories. PoE
 | `omen-chaotic-effectiveness.webp` | Omen of Chaotic Effectiveness | https://poe2db.tw/Omen_of_Chaotic_Effectiveness |
 | `omen-chaotic-quantity.webp` | Omen of Chaotic Quantity | https://poe2db.tw/Omen_of_Chaotic_Quantity |
 | `overseer-tablet.webp` | Overseer Tablet | https://poe2db.tw/us/Overseer_Tablet |
+| `purple-wisp.png` | Purple Wildwood wisp illustration | Supplied by the Regexile repository owner |
+| `ritual-altar.png` | Ritual altar illustration | Supplied by the Regexile repository owner |
 | `ritual-tablet.webp` | Ritual Tablet | https://www.poe2wiki.net/wiki/Ritual_Tablet |
 | `sacred-bloom.webp` | Sacred Bloom | https://poe2db.tw/us/Sacred_Bloom |
+| `strong-box.png` | Strongbox illustration | Supplied by the Regexile repository owner |
+| `tablet-map-device.png` | Four-slot Tablet map device illustration | Supplied by the Regexile repository owner |
 | `temple-tablet.webp` | Temple Tablet | https://poe2db.tw/us/Temple_Tablet |
+| `viridian-wildwood.png` | Viridian Wildwood illustration | Supplied by the Regexile repository owner |
 | `waystone-tier-15.webp` | Waystone (Tier 15) | https://www.poe2wiki.net/wiki/Waystone_(Tier_15) |
+| `yellow-wisp.png` | Yellow Wildwood wisp illustration | Supplied by the Regexile repository owner |
 
 Matching metadata and art paths were checked on https://poe2db.tw/.
 

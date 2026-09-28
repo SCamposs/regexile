@@ -198,7 +198,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
       <section className="farm-section" aria-labelledby={sectionId}>
         <SectionHeading id={sectionId} title={section.title} description={section.description} icon={<Route size={18} aria-hidden="true" />} asset={section.asset} />
         <ol className="route-priority">
-          {section.items.map((item) => <li key={item.rank}><span className="route-rank">{item.rank}</span><div><strong>{item.label}</strong><p>{item.reason}</p></div></li>)}
+          {section.items.map((item) => <li data-has-art={item.asset ? "true" : undefined} key={item.rank}><span className="route-rank">{item.rank}</span>{item.asset ? <GameArtwork asset={item.asset} size="item" /> : null}<div><strong>{item.label}</strong><p>{item.reason}</p></div></li>)}
         </ol>
         {section.extras ? <div className="also-useful"><h3>{section.extras.title}</h3><div>{section.extras.items.map((item) => <span key={item}>{item}</span>)}</div>{section.extras.note ? <p>{section.extras.note}</p> : null}</div> : null}
       </section>
@@ -293,7 +293,7 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
 
   return (
     <>
-      <section className="section-header farm-header" aria-labelledby="page-title">
+      <section className="section-header farm-header" data-has-art={guide.heroArtwork ? "true" : undefined} aria-labelledby="page-title">
         <div className="farm-title-block">
           <p className="breadcrumb">Farms <span>/</span> <strong>{guide.mechanic}</strong></p>
           <div className="farm-title-lockup">
@@ -309,6 +309,11 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
             {guide.investment ? <span><strong>Investment</strong> {guide.investment}</span> : null}
           </div>
         </div>
+        {guide.heroArtwork ? (
+          <div className="farm-hero-art" aria-hidden="true">
+            <Image src={guide.heroArtwork.src} alt="" fill priority sizes="(max-width: 875px) 120px, 160px" />
+          </div>
+        ) : null}
       </section>
 
       {featuredRegexGroup ? (

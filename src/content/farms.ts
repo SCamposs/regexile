@@ -87,7 +87,7 @@ export type FarmSection =
       title: string;
       description: string;
       asset?: GameAsset;
-      items: { rank: number; label: string; reason: string }[];
+      items: { rank: number; label: string; reason: string; asset?: GameAsset }[];
       extras?: { title: string; items: string[]; note?: string };
     }
   | {
@@ -150,6 +150,7 @@ export type FarmGuide = {
   investment?: string;
   farmTypes: FarmType[];
   artwork: GameAsset;
+  heroArtwork?: GameAsset;
   flow: FarmStep[];
   sections: FarmSection[];
   sources: FarmSource[];
@@ -198,6 +199,7 @@ export const farmGuides: FarmGuide[] = [
     difficulty: "High",
     farmTypes: ["city", "mechanic"],
     artwork: gameAssets.headOfTheKing,
+    heroArtwork: gameAssets.ritualAltar,
     flow: [
       { id: "waystone", label: "Prepare Waystone" },
       { id: "tablets", label: "Confirm 4-Tablet Setup" },
@@ -222,7 +224,7 @@ export const farmGuides: FarmGuide[] = [
             items: [
               { id: "head", label: "Head of the King", detail: "Bring it to Caer Tarth to begin the Rite of the Nameless.", asset: gameAssets.headOfTheKing },
               { id: "freedom", label: "Freedom of Faith", detail: "Use it as the unique fourth Tablet role to double the available Favour rerolls.", asset: gameAssets.freedomOfFaith },
-              { id: "city", label: "City · four-Tablet coverage", detail: "Use City maps so all four Tablet roles affect the route." },
+              { id: "city", label: "City · four-Tablet coverage", detail: "Use City maps so all four Tablet roles affect the route.", asset: gameAssets.tabletMapDevice },
               { id: "tier", label: "Tier 15+ Waystones", detail: "Use Tier 15 Waystones or better for the documented setup.", asset: gameAssets.waystoneTier15 },
               { id: "build", label: "Juiced Ritual clear", detail: "The character must comfortably clear dense Ritual encounters." },
             ],
@@ -314,8 +316,8 @@ export const farmGuides: FarmGuide[] = [
             title: "Strongbox layer",
             tone: "recommended",
             items: [
-              { id: "strongbox-chance", label: "Strongbox chance", detail: "Allocate general Strongbox chance on the Atlas, especially along routes containing Powerful Bosses." },
-              { id: "cryptic-keys", label: "Cryptic Keys", detail: "Mysterious Gifts lets Rare Strongbox Monsters and Unique Monsters generate Cryptic Keys as variable secondary drops.", asset: gameAssets.jadoMysteriousGifts },
+              { id: "strongbox-chance", label: "Strongbox chance", detail: "Allocate general Strongbox chance on the Atlas, especially along routes containing Powerful Bosses.", asset: gameAssets.strongbox },
+              { id: "cryptic-keys", label: "Cryptic Keys", detail: "Mysterious Gifts lets Rare Strongbox Monsters and Unique Monsters generate Cryptic Keys as variable secondary drops.", asset: gameAssets.crypticKey },
             ],
           },
           {
@@ -577,6 +579,7 @@ export const farmGuides: FarmGuide[] = [
     description: "Four-Tablet City setup that stacks Abyss pits, Abyssal monster scaling and extra map modifiers, then runs corrupted T15 Waystones under 200% Delirium.",
     farmTypes: ["city", "mechanic"],
     artwork: gameAssets.abyssTablet,
+    heroArtwork: gameAssets.abyssPit,
     flow: [
       { id: "tablets", label: "Build 4-Tablet Setup" },
       { id: "city", label: "Select City Maps" },
@@ -594,7 +597,7 @@ export const farmGuides: FarmGuide[] = [
             title: "Required",
             tone: "required",
             items: [
-              { id: "city", label: "City maps", detail: "Run Cities so all four Tablet slots can affect the map.", asset: gameAssets.waystoneTier15 },
+              { id: "city", label: "City maps", detail: "Run Cities so all four Tablet slots can affect the map.", asset: gameAssets.tabletMapDevice },
               { id: "tablets", label: "4× Abyss Tablets", detail: "Up to two may be replaced by other Tablet types to reduce the setup cost.", asset: gameAssets.abyssTablet },
               { id: "delirium", label: "Grand Mirror · 200% Delirium", detail: "Use a Grand Mirror to run the maps at 200% Delirium.", asset: mechanicIcons.delirium },
             ],
@@ -740,6 +743,7 @@ export const farmGuides: FarmGuide[] = [
     investment: "High",
     farmTypes: ["map-spam", "mechanic"],
     artwork: gameAssets.fracturingOrb,
+    heroArtwork: gameAssets.viridianWildwood,
     flow: [
       { id: "cleanse", label: "Cleanse Area" },
       { id: "wildwood", label: "Add Wildwood" },
@@ -784,6 +788,7 @@ export const farmGuides: FarmGuide[] = [
         type: "ranked",
         title: "Area Prep / Cleansed Area",
         description: "The farm only runs in a cleansed area. Prepare it through the Corrupted Nexus first.",
+        asset: gameAssets.cleansedArea,
         items: [
           { rank: 1, label: "Travel to the Nexus", reason: "Open the Atlas route to the Corrupted Nexus." },
           { rank: 2, label: "Find the marked corrupted zone", reason: "Follow the red-marked area associated with the Nexus." },
@@ -798,9 +803,9 @@ export const farmGuides: FarmGuide[] = [
         description: "Use Sacred Blooms after cleansing to add Viridian Wildwood, then collect every available spirit in this order.",
         asset: gameAssets.sacredBloom,
         items: [
-          { rank: 1, label: "Yellow spirits", reason: "Always prioritize yellow first." },
-          { rank: 2, label: "Purple spirits", reason: "Take purple after securing available yellow spirits." },
-          { rank: 3, label: "Blue spirits", reason: "Blue is the lowest priority, but still take it when available." },
+          { rank: 1, label: "Yellow spirits", reason: "Always prioritize yellow first.", asset: gameAssets.yellowWisp },
+          { rank: 2, label: "Purple spirits", reason: "Take purple after securing available yellow spirits.", asset: gameAssets.purpleWisp },
+          { rank: 3, label: "Blue spirits", reason: "Blue is the lowest priority, but still take it when available.", asset: gameAssets.blueWisp },
         ],
         extras: { title: "Sacred Bloom", items: ["Apply Sacred Blooms to the cleansed zone to add Viridian Wildwood."], note: "Priority controls routing, not whether a spirit should be skipped entirely." },
       },

@@ -898,6 +898,28 @@ kbd {
   padding-bottom: 1.125rem;
 }
 
+.farm-header[data-has-art="true"] {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 9rem;
+  align-items: end;
+  gap: 1.25rem;
+}
+
+.farm-hero-art {
+  position: relative;
+  width: 9rem;
+  height: 8rem;
+  margin-bottom: -0.5rem;
+  justify-self: end;
+  pointer-events: none;
+}
+
+.farm-hero-art img {
+  object-fit: contain;
+  object-position: right bottom;
+  filter: drop-shadow(0 0.3rem 0.4rem rgba(0, 0, 0, 0.62));
+}
+
 .farm-title-block {
   width: 100%;
 }
@@ -1461,6 +1483,18 @@ kbd {
   grid-template-columns: 2rem minmax(0, 1fr);
   gap: 0.75rem;
   padding: 0.75rem;
+}
+
+.route-priority li[data-has-art="true"] {
+  grid-template-columns: 2rem 2.75rem minmax(0, 1fr);
+  align-items: center;
+}
+
+.route-priority li[data-has-art="true"] .game-artwork {
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  background: transparent;
 }
 
 .route-priority li + li {
@@ -2246,6 +2280,25 @@ kbd {
 
   .farm-title-lockup {
     align-items: flex-start;
+  }
+
+  .farm-header[data-has-art="true"] {
+    position: relative;
+    display: block;
+  }
+
+  .farm-hero-art {
+    position: absolute;
+    right: 0;
+    bottom: 1.125rem;
+    width: 5rem;
+    height: 5rem;
+    margin: 0;
+  }
+
+  .farm-header[data-has-art="true"] .farm-meta {
+    min-height: 5rem;
+    padding-right: 5.5rem;
   }
 
   .game-artwork[data-size="hero"] {

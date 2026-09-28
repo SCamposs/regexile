@@ -4,9 +4,13 @@ export type GameAsset = {
 };
 
 export const gameAssets = {
+  abyssPit: { src: "/game-assets/abyss-pit.png", alt: "Abyss pit" },
   abyssTablet: { src: "/game-assets/abyss-tablet.webp", alt: "Abyss Tablet" },
   adaptiveCatalyst: { src: "/game-assets/adaptive-catalyst.webp", alt: "Adaptive Catalyst" },
+  blueWisp: { src: "/game-assets/blue-wisp.png", alt: "Blue Wildwood wisp" },
   breachTablet: { src: "/game-assets/breach-tablet.webp", alt: "Breach Tablet" },
+  cleansedArea: { src: "/game-assets/cleansed-area.png", alt: "Cleansed area" },
+  crypticKey: { src: "/game-assets/cryptic-key.png", alt: "Cryptic Key" },
   doryani: { src: "/game-assets/doryani.png", alt: "Doryani" },
   doryaniCarefulProcurement: { src: "/game-assets/doryani-careful-procurement.webp", alt: "Careful Procurement" },
   doryaniDisengagedSafeties: { src: "/game-assets/doryani-disengaged-safeties.webp", alt: "Disengaged Safeties" },
@@ -30,10 +34,16 @@ export const gameAssets = {
   omenChaoticEffectiveness: { src: "/game-assets/omen-chaotic-effectiveness.webp", alt: "Omen of Chaotic Effectiveness" },
   omenChaoticQuantity: { src: "/game-assets/omen-chaotic-quantity.webp", alt: "Omen of Chaotic Quantity" },
   overseerTablet: { src: "/game-assets/overseer-tablet.webp", alt: "Overseer Tablet" },
+  purpleWisp: { src: "/game-assets/purple-wisp.png", alt: "Purple Wildwood wisp" },
+  ritualAltar: { src: "/game-assets/ritual-altar.png", alt: "Ritual altar" },
   ritualTablet: { src: "/game-assets/ritual-tablet.webp", alt: "Ritual Tablet" },
   sacredBloom: { src: "/game-assets/sacred-bloom.webp", alt: "Sacred Bloom" },
+  strongbox: { src: "/game-assets/strong-box.png", alt: "Strongbox" },
+  tabletMapDevice: { src: "/game-assets/tablet-map-device.png", alt: "Four-slot Tablet map device" },
   templeTablet: { src: "/game-assets/temple-tablet.webp", alt: "Temple Tablet" },
+  viridianWildwood: { src: "/game-assets/viridian-wildwood.png", alt: "Viridian Wildwood" },
   waystoneTier15: { src: "/game-assets/waystone-tier-15.webp", alt: "Tier 15 Waystone" },
+  yellowWisp: { src: "/game-assets/yellow-wisp.png", alt: "Yellow Wildwood wisp" },
 } satisfies Record<string, GameAsset>;
 
 export const mechanicIcons = {
