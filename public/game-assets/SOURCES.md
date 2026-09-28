@@ -23,7 +23,9 @@ The Path of Exile 2 Wiki was used to confirm item names and icon categories. PoE
 | `irradiated-tablet.webp` | Irradiated Tablet | https://poe2db.tw/us/Irradiated_Tablet |
 | `hilda.png` | Hilda transparent portrait | Supplied by the Regexile repository owner |
 | `jado.png` | Jado transparent portrait | Supplied by the Regexile repository owner |
+| `jado-mysterious-gifts.webp` | Jado node: Mysterious Gifts | https://poe2db.tw/Atlas_Masters |
 | `jado-partial-translation.webp` | Jado node: Partial Translation | https://poe2db.tw/Masters_of_the_Atlas |
+| `jado-trove-seekers.webp` | Jado node: Trove Seekers | https://poe2db.tw/Atlas_Masters |
 | `jado-unforeseen-threats.webp` | Jado node: Unforeseen Threats | https://poe2db.tw/Masters_of_the_Atlas |
 | `jado-unexpected-mission.webp` | Jado node: Unexpected Mission | https://poe2db.tw/Masters_of_the_Atlas |
 | `lavish-wombgift.webp` | Lavish Wombgift | https://www.poe2wiki.net/wiki/Lavish_Wombgift |
