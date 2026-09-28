@@ -49,9 +49,10 @@
 }
 
 html {
-  min-width: 20rem;
+  min-width: 16rem;
   min-height: 100%;
   background: var(--canvas);
+  font-size: 125%;
   scroll-padding-top: var(--header-height);
 }
 
@@ -2071,7 +2072,7 @@ kbd {
   cursor: pointer;
 }
 
-@media (max-width: 68rem) {
+@media (max-width: 85rem) {
   :root {
     --sidebar-width: 14.5rem;
   }
@@ -2083,7 +2084,7 @@ kbd {
   }
 }
 
-@media (max-width: 56rem) {
+@media (max-width: 70rem) {
   .app-shell {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -2132,7 +2133,7 @@ kbd {
   }
 }
 
-@media (max-width: 43.75rem) {
+@media (max-width: 54.6875rem) {
   .workspace-header {
     grid-template-columns: auto minmax(0, 1fr);
     padding: 0.5rem 0.75rem;
