@@ -15,7 +15,8 @@ import { RegexEntry } from "@/src/components/regex-entry";
 import { WorkspaceShell } from "@/src/components/workspace-shell";
 import { farmGuides, type FarmGuide, type FarmSection, type GameAsset } from "@/src/content/farms";
 import { getRegexEntry, regexSections, type RegexEntry as RegexEntryType } from "@/src/content/regex";
-import { filterEntries } from "@/src/lib/search";
+import { filterEntries, filterFarmGuides } from "@/src/lib/search";
+import { GuideSearchResults } from "@/src/components/guide-search-results";
 
 const farmTypeLabels: Record<FarmGuide["farmTypes"][number], string> = {
   city: "City",
@@ -29,8 +30,9 @@ function resolveRegexEntries(ids: string[]): RegexEntryType[] {
   return ids.map(getRegexEntry).filter((entry): entry is RegexEntryType => Boolean(entry));
 }
 
-function SearchResults({ query }: { query: string }) {
+function SearchResults({ query, onClear }: { query: string; onClear: () => void }) {
   const results = useMemo(() => filterEntries(regexSections, query), [query]);
+  const guides = useMemo(() => filterFarmGuides(farmGuides, query), [query]);
 
   return (
     <>
@@ -38,19 +40,21 @@ function SearchResults({ query }: { query: string }) {
         <div>
           <p className="breadcrumb">Reference <span>/</span> <strong>Search</strong></p>
           <h1 id="page-title">Search Results</h1>
-          <p>{results.length} {results.length === 1 ? "match" : "matches"} across Maps and Tablets.</p>
+          <p>{results.length} regex {results.length === 1 ? "match" : "matches"} · {guides.length} farm {guides.length === 1 ? "guide" : "guides"}</p>
         </div>
       </section>
+      <GuideSearchResults guides={guides} onSelect={onClear} />
       <div className="entry-list" aria-live="polite">
         {results.length ? results.map(({ entry, section }) => (
           <div key={entry.id} className="search-result-wrap">
             <span className="search-result-context">{section.navigationLabel}</span>
             <RegexEntry entry={entry} />
           </div>
-        )) : (
+        )) : guides.length ? null : (
           <div className="empty-state">
-            <h2>No matching regexes</h2>
-            <p>Try a modifier name, mechanic, category, note, or regex fragment.</p>
+            <h2>No matches</h2>
+            <p>Try a farm, modifier or mechanic name.</p>
+            <button type="button" className="clear-search" onClick={onClear}>Clear search</button>
           </div>
         )}
       </div>
@@ -59,7 +63,7 @@ function SearchResults({ query }: { query: string }) {
 }
 
 function GameArtwork({ asset, size = "section" }: { asset: GameAsset; size?: "item" | "section" | "hero" }) {
-  const pixels = size === "hero" ? 80 : size === "item" ? 30 : 42;
+  const pixels = size === "hero" ? 110 : size === "item" ? 55 : 60;
 
   return (
     <span className="game-artwork" data-size={size} title={asset.alt}>
@@ -92,7 +96,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
         <SectionHeading id={sectionId} title={section.title} description={section.description} />
         <div className="farm-master">
           <div className="farm-master-identity">
-            <div className="farm-master-portrait"><Image src={section.portrait.src} alt="" fill sizes="(max-width: 700px) 96px, 128px" /></div>
+            <div className="farm-master-portrait"><Image src={section.portrait.src} alt="" fill sizes="(max-width: 54.6875rem) 4.5rem, 8rem" /></div>
             <div><span>Atlas Master</span><h3>{section.name}</h3></div>
           </div>
           <div className="farm-master-groups">
@@ -225,7 +229,7 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
           {section.nodes.map((node) => (
             <article className="farm-tree-node" data-priority={node.priority} key={node.id}>
               <span className="tree-node-marker" aria-hidden="true" />
-              <div><div className="tree-node-title"><h3>{node.name}</h3><span>{node.priority}</span></div><p>{node.note}</p><code>{node.id}</code></div>
+              <div><div className="tree-node-title"><h3>{node.name}</h3><span>{node.priority}</span></div><p>{node.note}</p></div>
             </article>
           ))}
         </div>
@@ -288,8 +292,9 @@ function FarmSectionContent({ section, sectionId }: { section: FarmSection; sect
 function FarmGuideContent({ guide }: { guide: FarmGuide }) {
   const titleParts = guide.title.split("—");
   const displayTitle = titleParts.length > 1 ? titleParts.slice(1).join("—").trim() : guide.title;
-  const featuredRegexSection = guide.sections.find((section) => section.type === "regex");
-  const featuredRegexGroup = featuredRegexSection?.groups.find((group) => group.label.toLowerCase().includes("waystone"));
+  const featuredRegexGroup = guide.sections
+    .flatMap((section) => section.type === "regex" ? section.groups : [])
+    .find((group) => group.entryIds.some((id) => getRegexEntry(id)?.category === "Maps"));
 
   return (
     <>
@@ -311,7 +316,7 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
         </div>
         {guide.heroArtwork ? (
           <div className="farm-hero-art" aria-hidden="true">
-            <Image src={guide.heroArtwork.src} alt="" fill priority sizes="(max-width: 875px) 120px, 160px" />
+            <Image src={guide.heroArtwork.src} alt="" fill priority sizes="(max-width: 54.6875rem) 5rem, 9rem" />
           </div>
         ) : null}
       </section>
@@ -332,14 +337,15 @@ function FarmGuideContent({ guide }: { guide: FarmGuide }) {
           ? { ...section, groups: section.groups.filter((group) => group !== featuredRegexGroup) }
           : section;
 
+        if (visibleSection.type === "regex" && !visibleSection.groups.length) return null;
         return <FarmSectionContent key={`${section.type}-${section.title}`} section={visibleSection} sectionId={`farm-section-${index}`} />;
       })}
 
       {guide.sources.length ? (
-        <section className="farm-sources" aria-labelledby="farm-sources-title">
-          <h2 id="farm-sources-title">Verification sources</h2>
+        <details className="farm-sources">
+          <summary>References</summary>
           <div>{guide.sources.map((source) => <a href={source.url} target="_blank" rel="noreferrer" key={source.url}>{source.name}<ArrowUpRight size={12} aria-hidden="true" /></a>)}</div>
-        </section>
+        </details>
       ) : null}
 
       <footer className="legal-note">Regexile is an unofficial Path of Exile 2 community tool and is not affiliated with or endorsed by Grinding Gear Games.</footer>
@@ -370,7 +376,7 @@ export function FarmWorkspace({ guide }: { guide: FarmGuide }) {
 
   return (
     <WorkspaceShell sections={regexSections} farms={farmGuides} activePath={guide.path} query={query} onQueryChange={setQuery} inputRef={inputRef}>
-      {query.trim() ? <SearchResults query={query} /> : <FarmGuideContent guide={guide} />}
+      {query.trim() ? <SearchResults query={query} onClear={() => setQuery("")} /> : <FarmGuideContent guide={guide} />}
     </WorkspaceShell>
   );
 }

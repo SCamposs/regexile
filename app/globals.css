@@ -11,7 +11,7 @@
   --border-focused: #a9823d;
   --text-primary: #e7e2d8;
   --text-secondary: #aaa69d;
-  --text-muted: #807f78;
+  --text-muted: #969187;
   --gold: #a9823d;
   --gold-bright: #c9a85e;
   --gold-tint: rgba(169, 130, 61, 0.1);
@@ -49,7 +49,6 @@
 }
 
 html {
-  min-width: 16rem;
   min-height: 100%;
   background: var(--canvas);
   font-size: 125%;
@@ -223,7 +222,7 @@ kbd {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: saturate(0.86) brightness(0.9);
+  filter: saturate(0.94);
   transition: filter 160ms ease-out;
 }
 
@@ -533,15 +532,21 @@ kbd {
 .regex-entry {
   position: relative;
   padding: 1rem;
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-panel);
-  background: var(--surface-primary);
-  transition: border-color 170ms ease-out, background 170ms ease-out;
+  border-top: 1px solid var(--border-default);
 }
 
-.regex-entry:hover {
-  border-color: var(--border-strong);
-  background: var(--surface-secondary);
+.pattern-parts summary,
+.farm-sources summary {
+  width: fit-content;
+  padding-block: .5rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: .75rem;
+}
+
+.pattern-parts summary:hover,
+.farm-sources summary:hover {
+  color: var(--gold-bright);
 }
 
 .entry-topline {
@@ -641,7 +646,7 @@ kbd {
 
 .pattern-bar {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   min-height: 2.625rem;
   overflow: hidden;
@@ -1016,19 +1021,14 @@ kbd {
 
 .farm-flow {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0;
   margin: 0.875rem 0 0;
   padding: 0.5rem 0;
-  overflow-x: auto;
   border-top: 1px solid var(--border-default);
   border-bottom: 1px solid var(--border-default);
   background: transparent;
-  scrollbar-width: none;
-}
-
-.farm-flow::-webkit-scrollbar {
-  display: none;
 }
 
 .farm-flow-step {

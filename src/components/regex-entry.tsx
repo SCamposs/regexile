@@ -1,18 +1,11 @@
-import { BadgeCheck, CircleAlert, FlaskConical, Info } from "lucide-react";
+import { CircleAlert, FlaskConical, Info } from "lucide-react";
 
 import { CopyButton } from "@/src/components/copy-button";
 import type { RegexEntry as RegexEntryType } from "@/src/content/regex";
 
 function VerificationLabel({ entry }: { entry: RegexEntryType }) {
   if (entry.verification === "verified") {
-    const sourceSummary = entry.sources?.length
-      ? `Verified ${entry.sources[0].verifiedAt} using ${entry.sources.map((source) => source.name).join(", ")}`
-      : undefined;
-    return (
-      <span className="verification verification-verified" title={sourceSummary}>
-        <BadgeCheck size={13} aria-hidden="true" /> Verified
-      </span>
-    );
+    return null;
   }
 
   if (entry.verification === "experimental") {
@@ -22,36 +15,34 @@ function VerificationLabel({ entry }: { entry: RegexEntryType }) {
   return <span className="verification verification-pending"><CircleAlert size={13} aria-hidden="true" /> Needs verification</span>;
 }
 
-function PatternBar({ value }: { value: string }) {
+function PatternBar({ value, label }: { value: string; label?: string }) {
   return (
     <div className="pattern-bar">
       <code title={value}>{value}</code>
-      <span className="character-count" aria-label={`${value.length} characters`}>{value.length} chars</span>
-      <CopyButton value={value} />
+      <CopyButton value={value} label={label} />
     </div>
   );
 }
 
-function MultiPattern({ entry }: { entry: RegexEntryType }) {
+function MultiPattern({ entry, value }: { entry: RegexEntryType; value: string }) {
   return (
-    <div className="multi-pattern-block">
-      <div className="requirements-grid">
-        {entry.patterns.map((pattern, index) => (
-          <div className="requirement" key={`${entry.id}-${pattern.value}`}>
-            <span className="requirement-label">{pattern.label ?? `Requirement ${index + 1}`}</span>
-            <div className="requirement-pattern">
-              <code>{pattern.value}</code>
-              <CopyButton value={pattern.value} />
+    <>
+      <PatternBar value={value} label={entry.combinedCopyLabel ?? "Copy combined"} />
+      <details className="pattern-parts">
+        <summary>Individual filters ({entry.patterns.length})</summary>
+        <div className="requirements-grid">
+          {entry.patterns.map((pattern, index) => (
+            <div className="requirement" key={pattern.value}>
+              <span className="requirement-label">{pattern.label ?? `Requirement ${index + 1}`}</span>
+              <div className="requirement-pattern">
+                <code>{pattern.value}</code>
+                <CopyButton value={pattern.value} />
+              </div>
             </div>
-          </div>
-        ))}
-        <span className="and-chip">AND</span>
-      </div>
-      <div className="combined-row">
-        <span>Combined syntax: <code>{entry.combinedPattern}</code></span>
-        <CopyButton value={entry.combinedPattern ?? ""} label={entry.combinedCopyLabel ?? "Copy both"} tone="gold" />
-      </div>
-    </div>
+          ))}
+        </div>
+      </details>
+    </>
   );
 }
 
@@ -74,7 +65,7 @@ export function RegexEntry({ entry }: { entry: RegexEntryType }) {
       {entry.description ? <p className="entry-description">{entry.description}</p> : null}
 
       {entry.requireAllPatterns && entry.combinedPattern ? (
-        <MultiPattern entry={entry} />
+        <MultiPattern entry={entry} value={entry.combinedPattern} />
       ) : entry.patterns[0] ? (
         <PatternBar value={entry.patterns[0].value} />
       ) : (

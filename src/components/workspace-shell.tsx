@@ -30,10 +30,14 @@ export function WorkspaceShell({
   children,
 }: WorkspaceShellProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  function handleNavigation() {
+    onQueryChange("");
+    setMobileOpen(false);
+  }
 
   return (
     <div className="app-shell">
-      <Sidebar sections={sections} farms={farms} activePath={activePath} query={query} />
+      <Sidebar sections={sections} farms={farms} activePath={activePath} onNavigate={handleNavigation} />
 
       <div className="workspace">
         <header className="workspace-header">
@@ -46,7 +50,7 @@ export function WorkspaceShell({
                   <Dialog.Title className="sr-only">Regexile navigation</Dialog.Title>
                   <Dialog.Description className="sr-only">Select a regex category or farming guide.</Dialog.Description>
                   <Dialog.Close className="mobile-nav-close" aria-label="Close navigation"><X size={18} aria-hidden="true" /></Dialog.Close>
-                  <Sidebar sections={sections} farms={farms} activePath={activePath} query={query} mobile onNavigate={() => setMobileOpen(false)} />
+                  <Sidebar sections={sections} farms={farms} activePath={activePath} mobile onNavigate={handleNavigation} />
                 </Dialog.Popup>
               </Dialog.Viewport>
             </Dialog.Portal>
@@ -54,13 +58,13 @@ export function WorkspaceShell({
 
           <label className="global-search">
             <Search size={17} aria-hidden="true" />
-            <span className="sr-only">Search all regex entries</span>
+            <span className="sr-only">Search regexes and farm guides</span>
             <input
               ref={inputRef}
               type="search"
               value={query}
               onChange={(event) => onQueryChange(event.target.value)}
-              placeholder="Search regex, modifiers, mechanics..."
+              placeholder="Search regexes, mods, farms…"
               autoComplete="off"
               spellCheck={false}
             />

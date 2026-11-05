@@ -24,26 +24,22 @@ type SidebarProps = {
   sections: RegexSection[];
   farms?: FarmGuide[];
   activePath: string;
-  query?: string;
   mobile?: boolean;
   onNavigate?: () => void;
 };
 
-function NavItem({ section, active, query, onNavigate }: {
+function NavItem({ section, active, onNavigate }: {
   section: RegexSection;
   active: boolean;
-  query?: string;
   onNavigate?: () => void;
 }) {
-  const href = query ? `${section.path}?q=${encodeURIComponent(query)}` : section.path;
-
   return (
     <Link
-      href={href}
+      href={section.path}
       className="sidebar-link"
       data-active={active || undefined}
       aria-current={active ? "page" : undefined}
-      onClick={onNavigate}
+      onNavigate={onNavigate}
     >
       <NavigationArtwork asset={regexSectionAssets[section.slug]} />
       <span>{section.navigationLabel}</span>
@@ -54,7 +50,7 @@ function NavItem({ section, active, query, onNavigate }: {
   );
 }
 
-export function Sidebar({ sections, farms = [], activePath, query, mobile = false, onNavigate }: SidebarProps) {
+export function Sidebar({ sections, farms = [], activePath, mobile = false, onNavigate }: SidebarProps) {
   const mapSections = sections.filter((section) => section.group === "maps");
   const tabletSections = sections.filter((section) => section.group === "tablets");
 
@@ -68,14 +64,14 @@ export function Sidebar({ sections, farms = [], activePath, query, mobile = fals
         <div className="nav-group">
           <p className="nav-group-label">Core</p>
           {mapSections.map((section) => (
-            <NavItem key={section.slug} section={section} active={activePath === section.path} query={query} onNavigate={onNavigate} />
+            <NavItem key={section.slug} section={section} active={activePath === section.path} onNavigate={onNavigate} />
           ))}
         </div>
 
         <div className="nav-group">
           <p className="nav-group-label">Tablets</p>
           {tabletSections.map((section) => (
-            <NavItem key={section.slug} section={section} active={activePath === section.path} query={query} onNavigate={onNavigate} />
+            <NavItem key={section.slug} section={section} active={activePath === section.path} onNavigate={onNavigate} />
           ))}
         </div>
 
@@ -89,7 +85,7 @@ export function Sidebar({ sections, farms = [], activePath, query, mobile = fals
                 className="sidebar-link sidebar-link-farm"
                 data-active={activePath === farm.path || undefined}
                 aria-current={activePath === farm.path ? "page" : undefined}
-                onClick={onNavigate}
+                onNavigate={onNavigate}
               >
                 <NavigationArtwork asset={farmNavigationAssets[farm.slug]} />
                 <span>{farm.navigationLabel}</span>

@@ -2,12 +2,16 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { SearchX } from "lucide-react";
+import Image from "next/image";
 
 import { RegexEntry } from "@/src/components/regex-entry";
 import { WorkspaceShell } from "@/src/components/workspace-shell";
 import { farmGuides } from "@/src/content/farms";
+import { regexSectionAssets } from "@/src/content/game-assets";
+import styles from "./guide-search-results.module.css";
 import type { RegexEntry as RegexEntryType, RegexSection } from "@/src/content/regex";
-import { filterEntries } from "@/src/lib/search";
+import { filterEntries, filterFarmGuides } from "@/src/lib/search";
+import { GuideSearchResults } from "@/src/components/guide-search-results";
 
 type Filter = "all" | "high-value" | "multi-pattern" | "needs-verification";
 
@@ -80,9 +84,11 @@ export function SearchWorkspace({ sections, selectedSection, initialQuery }: {
   );
 
   const searching = Boolean(query.trim());
+  const guides = searching ? filterFarmGuides(farmGuides, query) : [];
+  const artwork = searching ? undefined : regexSectionAssets[selectedSection.slug];
   const title = searching ? "Search Results" : selectedSection.title;
   const description = searching
-    ? `${baseResults.length} ${baseResults.length === 1 ? "match" : "matches"} across Maps and Tablets.`
+    ? `${results.length} regex ${results.length === 1 ? "match" : "matches"} · ${guides.length} farm ${guides.length === 1 ? "guide" : "guides"}`
     : selectedSection.description;
 
   return (
@@ -97,7 +103,10 @@ export function SearchWorkspace({ sections, selectedSection, initialQuery }: {
             <section className="section-header" aria-labelledby="page-title">
               <div>
                 <p className="breadcrumb">{searching ? "Reference" : selectedSection.group === "maps" ? "Core" : "Tablets"} <span>/</span> <strong>{searching ? "Search" : selectedSection.navigationLabel}</strong></p>
-                <h1 id="page-title">{title}</h1>
+                <h1 id="page-title" className={styles.title}>
+                  {artwork && <Image src={artwork.src} alt="" width={48} height={48} />}
+                  {title}
+                </h1>
                 <p>{description}</p>
               </div>
               {availableFilters.length > 1 ? (
@@ -109,6 +118,7 @@ export function SearchWorkspace({ sections, selectedSection, initialQuery }: {
               ) : null}
             </section>
 
+            <GuideSearchResults guides={guides} onSelect={() => setQuery("")} />
             <div className="entry-list" aria-live="polite">
               {results.length ? (
                 results.map(({ entry, section }) => (
@@ -117,17 +127,16 @@ export function SearchWorkspace({ sections, selectedSection, initialQuery }: {
                     <RegexEntry entry={entry} />
                   </div>
                 ))
-              ) : selectedSection.slug === "abyss" && !searching ? (
+              ) : guides.length ? null : !searching ? (
                 <div className="empty-state">
                   <div className="empty-state-icon"><SearchX size={22} aria-hidden="true" /></div>
-                  <h2>No confirmed Abyss regexes yet.</h2>
-                  <p>More entries can be added as English modifier strings are verified.</p>
+                  <h2>No filters available for {selectedSection.navigationLabel} yet</h2>
                 </div>
               ) : (
                 <div className="empty-state">
                   <div className="empty-state-icon"><SearchX size={22} aria-hidden="true" /></div>
-                  <h2>No matching regexes</h2>
-                  <p>Try a modifier name, mechanic, category, note, or regex fragment.</p>
+                  <h2>No matches</h2>
+                  <p>Try a farm, modifier or mechanic name.</p>
                   <button type="button" className="clear-search" onClick={() => { setQuery(""); setFilter("all"); }}>Clear search</button>
                 </div>
               )}

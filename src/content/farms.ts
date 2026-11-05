@@ -160,11 +160,11 @@ const ritualSources: FarmSource[] = [
   { name: "Path of Exile 2 Wiki: Ritual", url: "https://www.poe2wiki.net/wiki/Ritual", verifiedAt: "2026-09-24" },
   { name: "Path of Exile 2 Wiki: Freedom of Faith", url: "https://www.poe2wiki.net/wiki/Freedom_of_Faith", verifiedAt: "2026-09-24" },
   { name: "Path of Exile 2 Wiki: Head of the King", url: "https://www.poe2wiki.net/wiki/Head_of_the_King", verifiedAt: "2026-09-24" },
-  { name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" },
+  { name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.ENGLISH.json", verifiedAt: "2026-09-24" },
 ];
 
 const catalystSources: FarmSource[] = [
-  { name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-24" },
+  { name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.ENGLISH.json", verifiedAt: "2026-09-24" },
   { name: "poe2.re Tablet generator", url: "https://github.com/veiset/poe.re/blob/master/poe2/src/pages/tablet/TabletResult.ts", verifiedAt: "2026-09-24" },
   { name: "poe2.re Waystone generator", url: "https://github.com/veiset/poe.re/blob/master/poe2/src/pages/waystone/WaystoneResult.ts", verifiedAt: "2026-09-24" },
   { name: "PoE2DB: The Genesis Tree", url: "https://poe2db.tw/us/The_Genesis_Tree", verifiedAt: "2026-09-24" },
@@ -183,7 +183,7 @@ const fracturedOrbSources: FarmSource[] = [
   { name: "PoE2DB: Version 0.5.5", url: "https://poe2db.tw/us/Version_0.5.5", verifiedAt: "2026-09-27" },
   { name: "PoE2DB: Fracturing Orb", url: "https://poe2db.tw/us/Fracturing_Orb", verifiedAt: "2026-09-27" },
   { name: "PoE2DB: Sacred Bloom", url: "https://poe2db.tw/us/Sacred_Bloom", verifiedAt: "2026-09-27" },
-  { name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.json", verifiedAt: "2026-09-27" },
+  { name: "poe2.re tablet dataset", url: "https://github.com/veiset/poe.re/blob/master/poe2/generated/tablet/Generated.Tablet.ENGLISH.json", verifiedAt: "2026-09-27" },
 ];
 
 export const farmGuides: FarmGuide[] = [
@@ -225,7 +225,7 @@ export const farmGuides: FarmGuide[] = [
               { id: "head", label: "Head of the King", detail: "Bring it to Caer Tarth to begin the Rite of the Nameless.", asset: gameAssets.headOfTheKing },
               { id: "freedom", label: "Freedom of Faith", detail: "Use it as the unique fourth Tablet role to double the available Favour rerolls.", asset: gameAssets.freedomOfFaith },
               { id: "city", label: "City · four-Tablet coverage", detail: "Use City maps so all four Tablet roles affect the route.", asset: gameAssets.tabletMapDevice },
-              { id: "tier", label: "Tier 15+ Waystones", detail: "Use Tier 15 Waystones or better for the documented setup.", asset: gameAssets.waystoneTier15 },
+              { id: "tier", label: "Tier 15+ Waystones", detail: "Prepare a Tier 15 or Tier 16 Waystone.", asset: gameAssets.waystoneTier15 },
               { id: "build", label: "Juiced Ritual clear", detail: "The character must comfortably clear dense Ritual encounters." },
             ],
           },
@@ -244,8 +244,8 @@ export const farmGuides: FarmGuide[] = [
         tone: "gold",
         title: "Head of the King starts the Rite; Freedom of Faith doubles rerolls",
         paragraphs: [
-          "Head of the King is the key used at Caer Tarth to begin the Rite of the Nameless. It is not the source of the reroll multiplier.",
-          "Freedom of Faith doubles the available Favour rerolls after additional-reroll effects are applied. Its increased Favour cost is offset by free deferral and a larger reroll pool.",
+          "Bring Head of the King to Caer Tarth to begin the Rite of the Nameless.",
+          "Freedom of Faith doubles available rerolls and increases Favour costs by 10–15%. Check the final deferral cost at the altar before spending your Tribute.",
         ],
       },
       {
@@ -257,7 +257,7 @@ export const farmGuides: FarmGuide[] = [
         requirements: [
           { id: "rerolls-deferral", count: "1×", label: "Rerolls + Deferral", range: "+1–3 rerolls · 20–30% reduced Deferral", recommendation: "Core rare Tablet", purpose: "Builds the reroll pool while contributing to the 100% reduced Deferral Cost target." },
           { id: "omens-deferral", count: "1×", label: "Omen Chance + Deferral", range: "35–70% Omen chance · 20–30% reduced Deferral", recommendation: "High Omen roll", purpose: "Adds another Deferral roll and keeps high-value Omens prominent in the Favour pool." },
-          { id: "reroll-economy", count: "1×", label: "Reroll economy", range: "20–30% reduced reroll cost · +1–3 rerolls", recommendation: "Complete the 100% target", purpose: "Use Reduced Deferral as the third suffix when the setup still needs it; otherwise prefer Omen Chance on the remaining available roll." },
+          { id: "reroll-economy", count: "1×", label: "Reroll economy", range: "20–30% reduced reroll cost · +1–3 rerolls", recommendation: "Complete the 100% target", purpose: "If deferring still costs Tribute, look for another reduced Deferral roll. Once deferral is free, prioritize Omen Chance." },
           { id: "freedom", count: "1×", label: "Freedom of Faith", range: "Unique Ritual Tablet", recommendation: "Doubles rerolls", purpose: "Multiplies the rerolls added by the rare Tablets and the Rite sequence." },
         ],
         note: "Check the final combined Deferral value after Tablet-effect scaling and only treat deferral as free when it reaches 100%. Divine Orbs reroll numeric values inside an existing modifier range; they do not change the modifier or its tier.",
@@ -285,7 +285,7 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "cards",
         title: "100% Deferral execution",
-        description: "At the verified 100% cap, deferring and re-deferring Favours costs no Tribute.",
+        description: "Check the Tribute cost shown at the altar. Once it reads zero, spend your Tribute on rerolls and purchases.",
         items: [
           { label: "Defer valuable Favours freely", detail: "Keep valuable Omens and premium Uniques in the deferred pool without reserving Tribute for the deferral action.", tone: "value" },
           { label: "Reroll aggressively", detail: "Use Tribute for the expanded reroll pool instead of holding it back for repeated deferral costs.", tone: "value" },
@@ -356,7 +356,7 @@ export const farmGuides: FarmGuide[] = [
         type: "notes",
         title: "Operational notes",
         items: [
-          "Confirm the displayed Deferral reduction reaches 100% before following the free-deferral execution rules.",
+          "Check the cost shown on the Favour each map, especially when relying on the random Tablet bonus from Partial Translations.",
           "Head of the King starts the Rite of the Nameless; Freedom of Faith is the Tablet that doubles rerolls.",
           "This version does not require a separate cashout map.",
         ],
@@ -491,7 +491,7 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "tree",
         title: "Required Genesis Tree setup",
-        description: "The verified Currency Womb path and Catalyst-specific branches. Connecting nodes are included so the setup remains actionable without a full tree renderer.",
+        description: "Take Complete Refinement to birth Catalysts, then follow the Jewel Catalyst and additional Catalyst branches.",
         treeId: "BrequelTreeCurrency",
         warning: "Complete Refinement is the core conversion node. Enhanced Creation is reached through Jewel Catalyst Chance.",
         asset: gameAssets.lavishWombgift,
@@ -541,7 +541,7 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "links",
         title: "Current market reference",
-        description: "Use a live external view instead of freezing league prices inside Regexile.",
+        description: "Check current league prices before selling your Catalysts.",
         links: [{ label: "Check current Catalyst prices", url: "https://poe.ninja/poe2/economy/forbiddenrites/breach-catalyst", note: "poe.ninja · current PoE2 Catalyst category" }],
       },
       {
@@ -640,7 +640,7 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "regex",
         title: "Tablet Regexes",
-        description: "Central Regexile entries for sorting the mandatory and useful Tablet modifiers in this setup.",
+        description: "Check every Tablet for the +2 roll, then check the other modifiers across all four.",
         groups: [
           { label: "Key Abyss modifiers · any required line", entryIds: ["abyss-rares-key-mods"] },
           { label: "Mandatory on every Tablet · exact +2 roll", entryIds: ["general-two-random-modifiers"] },
@@ -676,9 +676,9 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "regex",
         title: "Waystone Regex",
-        description: "Recommended tier, modifier count and rarity targets for the maps used by this farm.",
+        description: "Filter for tier and both rarity bonuses, then count the modifiers on each match.",
         groups: [
-          { label: "Waystone · T15+ · 6+ mods · 40%+ Item Rarity · 40%+ Monster Rarity", entryIds: ["maps-abyss-rares-item-monster-rarity-40"] },
+          { label: "T15+ Waystone · 40%+ Item Rarity and Monster Rarity · check 6+ mods by hand", entryIds: ["maps-abyss-rares-item-monster-rarity-40"] },
         ],
       },
       {
@@ -691,7 +691,7 @@ export const farmGuides: FarmGuide[] = [
             tone: "required",
             items: [
               { id: "six-mod", label: "Start from a 6-modifier Waystone", detail: "Six modifiers are the practical baseline for maps worth finishing." },
-              { id: "effectiveness-omen", label: "Use Omen of Chaotic Effectiveness", detail: "This is the prescribed Omen for the preparation step.", asset: gameAssets.omenChaoticEffectiveness },
+              { id: "effectiveness-omen", label: "Use Omen of Chaotic Effectiveness", detail: "Use the Omen while rolling the Waystone.", asset: gameAssets.omenChaoticEffectiveness },
               { id: "corrupt", label: "Corrupt every prepared Waystone", detail: "The strategy calls for corrupting all prepared maps." },
             ],
           },
@@ -713,9 +713,9 @@ export const farmGuides: FarmGuide[] = [
         name: "Jado",
         portrait: gameAssets.jado,
         required: [
-          { id: "partial-translations", name: "Partial Translations", summary: "Gives Tablet explicit modifiers a chance to apply at double effect.", asset: gameAssets.jadoPartialTranslation },
-          { id: "unforeseen-threats", name: "Unforeseen Threats", summary: "Map completions can reveal a nearby Anomaly Map.", asset: gameAssets.jadoUnforeseenThreats },
-          { id: "unexpected-missions", name: "Unexpected Missions", summary: "Corrupted Waystones open a random basic Map Area with an additional random modifier.", asset: gameAssets.jadoUnexpectedMission },
+          { id: "partial-translations", name: "Partial Translations", summary: "Grants a random 0–40% increase to the effect of explicit Tablet modifiers.", asset: gameAssets.jadoPartialTranslation },
+          { id: "unforeseen-threats", name: "Unforeseen Threats", summary: "Each completed map has a 5% chance to reveal a nearby Anomaly Map.", asset: gameAssets.jadoUnforeseenThreats },
+          { id: "unexpected-missions", name: "Unexpected Missions", summary: "Corrupted Waystones add one random map modifier. On Basic Maps they also randomize the area.", asset: gameAssets.jadoUnexpectedMission },
         ],
       },
       {
@@ -765,7 +765,7 @@ export const farmGuides: FarmGuide[] = [
           { label: "Tablets", value: "3× Ritual Tablets" },
           { label: "Core roll", value: "+2 random modifiers", tone: "value" },
           { label: "Best fit", value: "Fast full-clear builds" },
-          { label: "Converted return", value: "100+ Divines / 10 maps", tone: "value" },
+          { label: "Test run", value: "100+ Divines converted / 10 maps", tone: "value" },
         ],
       },
       {
@@ -807,12 +807,12 @@ export const farmGuides: FarmGuide[] = [
           { rank: 2, label: "Purple spirits", reason: "Take purple after securing available yellow spirits.", asset: gameAssets.purpleWisp },
           { rank: 3, label: "Blue spirits", reason: "Blue is the lowest priority, but still take it when available.", asset: gameAssets.blueWisp },
         ],
-        extras: { title: "Sacred Bloom", items: ["Apply Sacred Blooms to the cleansed zone to add Viridian Wildwood."], note: "Priority controls routing, not whether a spirit should be skipped entirely." },
+        extras: { title: "Sacred Bloom placement", items: ["Choose a cleansed Atlas map with several connected cleansed maps. One Bloom adds Wildwood to the chosen map and its direct neighbours."] },
       },
       {
         type: "tablets",
         title: "Tablets",
-        description: "Use three Ritual Tablets. The +2 roll is the key condition on each prepared Tablet.",
+        description: "Stack three Ritual Tablets to collect more wisps in the Wildwood. Look for +2 random map modifiers on each Tablet.",
         status: "3 Ritual Tablets · +2 is core",
         asset: gameAssets.ritualTablet,
         requirements: [
@@ -824,7 +824,7 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "regex",
         title: "Tablet Regexes",
-        description: "Shared Regexile entries for the core roll, support rolls and one-Tablet convenience search.",
+        description: "Use the combined search to find a +2 Tablet with at least one support roll.",
         groups: [
           { label: "+2 Random Modifiers · core requirement", entryIds: ["general-two-random-modifiers"] },
           { label: "Good Support Mods · OR search", entryIds: ["fractured-orb-good-support-mods"] },
@@ -872,7 +872,7 @@ export const farmGuides: FarmGuide[] = [
       {
         type: "cards",
         title: "Cost / Setup",
-        description: "Practical average estimates. Trade prices move and these values are not fixed guarantees.",
+        description: "Example budget for this setup. Check current prices before buying.",
         items: [
           { label: "Waystones", detail: "Eight-mod maps are roughly 3 Chaos each on trade." },
           { label: "Sacred Blooms", detail: "Budget roughly 4.5 Chaos worth per zone on average.", tone: "neutral" },

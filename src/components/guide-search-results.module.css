@@ -1,0 +1,16 @@
+.guides { margin-block: 1rem; }
+.guides h2 { color: var(--text-secondary); font-size: .75rem; margin-bottom: .25rem; }
+.guides a {
+  display: grid;
+  grid-template-columns: 2rem 1fr auto;
+  align-items: center;
+  gap: .75rem;
+  padding: .4rem .5rem;
+  border-bottom: 1px solid var(--border-default);
+  font-family: var(--font-display);
+}
+.guides img { width: 2rem; height: 2rem; object-fit: contain; }
+.guides svg { color: var(--gold-bright); }
+.guides a:is(:hover, :focus-visible) { background: var(--gold-tint); color: var(--gold-bright); }
+.title { display: flex; align-items: center; gap: .5rem; }
+.title img { width: 2.4rem; height: 2.4rem; flex: none; object-fit: contain; }
